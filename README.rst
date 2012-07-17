@@ -4,7 +4,7 @@
 Django tables2 report
 =====================
 
-With django-tables2-reports you can get a CSV report of any table in your project with '''minimal changes''' to your project
+With django-tables2-reports you can get a CSV report of any `table <http://pypi.python.org/pypi/django-tables2/>`_  with **minimal changes** to your project
 
 Requeriments
 ============
