@@ -17,8 +17,14 @@
 
 import django_tables2 as tables
 
+from django_tables2_reports.utils import DEFAULT_PARAM_PREFIX, generate_prefixto_report
+
 
 class TableReport(tables.Table):
 
-    def __init__(self, template='django_tables2_reports/table.html', *args, **kwargs):
-        super(TableReport, self).__init__(template=template, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        if not 'template' in kwargs:
+            kwargs['template'] = 'django_tables2_reports/table.html'
+        prefix_param_report = kwargs.pop('prefix_param_report', DEFAULT_PARAM_PREFIX)
+        super(TableReport, self).__init__(*args, **kwargs)
+        self.param_report = generate_prefixto_report(self, prefix_param_report)

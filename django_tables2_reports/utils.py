@@ -14,22 +14,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
-from django_tables2.config import RequestConfig
+
+DEFAULT_PARAM_PREFIX = 'report'
 
 
-class RequestConfigReport(RequestConfig):
-
-    def __init__(self, request, paginate=True, paginate_report=False):
-        self.request = request
-        self.paginate = paginate
-        self.paginate_report = paginate_report
-
-    def configure(self, table, extra_context=None):
-        table.is_configured = True
-        param_report = table.param_report
-        is_report = self.request.GET.get(param_report)
-        if is_report:
-            self.paginate = self.paginate_report
-            self.request.table = table
-            self.request.extra_context = extra_context or {}
-        super(RequestConfigReport, self).configure(table)
+def generate_prefixto_report(table, prefix_param_report=None):
+    param_report = prefix_param_report or DEFAULT_PARAM_PREFIX
+    param_report = "%s-%s" % (param_report, table.__class__.__name__.lower())
+    prefix = table.prefix
+    if prefix:
+        param_report = "%s-%s" % (prefix, param_report)
+    return param_report

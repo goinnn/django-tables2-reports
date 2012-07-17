@@ -4,9 +4,7 @@
 
 {% block table %}
     {{ block.super }}
-    {% if table.prefix %}
-        <a href="?{{ table.prefix }}-report=report">{% trans "Report" %}</a>
-    {% else %}
-        <a href="?report=report">{% trans "Report" %}</a>
+    {% if table.is_configured %}
+        <a href="?{{ table.param_report }}=report">{% trans "Report" %}</a>
     {% endif %}
 {% endblock %}

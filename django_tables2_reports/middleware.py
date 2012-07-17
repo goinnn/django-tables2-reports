@@ -19,6 +19,8 @@ from django.http import HttpResponse
 from django.template.context import RequestContext
 from django.template.loader import get_template
 
+from django_tables2_reports.utils import generate_prefixto_report
+
 
 class TableReportMiddleware(object):
 
@@ -26,9 +28,13 @@ class TableReportMiddleware(object):
         if getattr(request, 'table', None):
             template = get_template('django_tables2_reports/table_report.html')
             context = RequestContext(request, {"table": request.table})
+            context.update(request.extra_context)
             request.table.context = context
-            report = template.render(RequestContext(request, {"table": request.table}))
-            filename = 'report.csv'
+            param_report = generate_prefixto_report(request.table)
+            report = template.render(RequestContext(request,
+                                            {'table': request.table,
+                                             'param_report': param_report}))
+            filename = '%s.csv' % param_report
             response = HttpResponse(report, mimetype='application/vnd.ms-excel')
             response['Content-Disposition'] = 'attachment; filename=%s' % filename
             return response
