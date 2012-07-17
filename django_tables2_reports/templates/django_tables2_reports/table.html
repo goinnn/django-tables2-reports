@@ -5,6 +5,8 @@
 {% block table %}
     {{ block.super }}
     {% if table.is_configured %}
-        <a href="{% querystring table.param_report="report" %}">{% trans "Report" %}</a>
+        <a href="{% querystring table.param_report="report" %}">
+            <img src="{{ STATIC_URL }}img/csv_icon.jpg" title="{% trans "CSV Report" %}"/>
+        </a>
     {% endif %}
 {% endblock %}
