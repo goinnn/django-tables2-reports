@@ -57,6 +57,8 @@ Changes in your project
 
 * Now you should use other RequestConfig:
 
+::
+
     ############### Before ###################
 
     from django_tables2 import RequestConfig
