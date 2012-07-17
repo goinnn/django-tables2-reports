@@ -1,10 +1,10 @@
 {% extends "django_tables2/table.html" %}
 
-{% load i18n %}
+{% load i18n django_tables2 %}
 
 {% block table %}
     {{ block.super }}
     {% if table.is_configured %}
-        <a href="?{{ table.param_report }}=report">{% trans "Report" %}</a>
+        <a href="{% querystring table.param_report="report" %}">{% trans "Report" %}</a>
     {% endif %}
 {% endblock %}
