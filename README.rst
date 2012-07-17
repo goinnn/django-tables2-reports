@@ -84,6 +84,11 @@ Changes in your project
                                   {'table': table},
                                   context_instance=RequestContext(request))
 
+Usage
+=====
+
+Under the table appear a CSV icon, if you click in this icon, you get a CSV report with every item of the table (without pagination). The ordering works!
+
 
 Other way to use this application
 =================================
