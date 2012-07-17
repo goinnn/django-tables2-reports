@@ -9,12 +9,12 @@ With django-tables2-reports you can get a CSV report of any table in your projec
 Requeriments
 ============
 
- * `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0)
+* `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0)
 
 Installation
 ============
 
- * In your settings:
+* In your settings:
 
 ::
 
@@ -32,7 +32,7 @@ Installation
 Changes in your project
 =======================
 
- * Now your table should extend of 'TableReport'
+* Now your table should extend of 'TableReport'
 
 ::
 
@@ -54,7 +54,8 @@ Changes in your project
 
         ...
 
- * Now you should use other RequestConfig:
+
+* Now you should use other RequestConfig:
 
     ############### Before ###################
 
