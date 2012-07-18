@@ -88,6 +88,7 @@ Changes in your project
 If you have a lot of tables in your project, you can activate the middleware, and you do not have to change your views, only the RequestConfig import
 
 ::
+
     # In your settings 
 
     MIDDLEWARE_CLASSES = (
