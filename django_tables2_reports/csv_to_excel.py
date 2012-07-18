@@ -18,9 +18,8 @@
 
 import csv
 
-
 try:
-    import pyExcelerator # pyflakes:ignore
+    import pyExcelerator
 except ImportError:
     HAS_PYEXCELERATOR = False
 else:
@@ -29,8 +28,7 @@ else:
 
 def openExcelSheet():
     """ Opens a reference to an Excel WorkBook and Worksheet objects """
-    from pyExcelerator import Workbook
-    workbook = Workbook()
+    workbook = pyExcelerator.Workbook()
     worksheet = workbook.add_sheet("Sheet 1")
     return workbook, worksheet
 

@@ -13,9 +13,13 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
+
 from django.http import HttpResponse
 
+
 DEFAULT_PARAM_PREFIX = 'report'
+REQUEST_VARIABLE = 'table_to_csv'
+REPORT_MYMETYPE = 'application/vnd.ms-excel'
 
 
 def generate_prefixto_report(table, prefix_param_report=None):
@@ -29,8 +33,9 @@ def generate_prefixto_report(table, prefix_param_report=None):
 
 def create_report_http_response(table, request):
     format = request.GET.get(table.param_report)
-    report = table.as_report(request, format)
-    filename = '%s.csv' % table.param_report
-    response = HttpResponse(report, mimetype='application/vnd.ms-excel')
+    report = table.as_report(request, format=format)
+    filename = '%s.%s' % (table.param_report, format)
+    response = HttpResponse(report, mimetype=REPORT_MYMETYPE)
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    response = table.treatement_to_response(response, format=format)
     return response

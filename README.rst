@@ -10,6 +10,8 @@ Requeriments
 ============
 
 * `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0)
+* `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4a) (This is optional, to export to xls)
+
 
 Installation
 ============
@@ -23,16 +25,11 @@ Installation
         'django_tables2_reports',
     )
 
-    MIDDLEWARE_CLASSES = (
-
-        'django_tables2_reports.middleware.TableReportMiddleware',
-    )
-
 
 Changes in your project
 =======================
 
-* Now your table should extend of 'TableReport'
+1. Now your table should extend of 'TableReport'
 
 ::
 
@@ -55,7 +52,7 @@ Changes in your project
         ...
 
 
-* Now you should use other RequestConfig:
+2.a. Now you should use other RequestConfig and change your view:
 
 ::
 
@@ -75,6 +72,31 @@ Changes in your project
     ############### Now ######################
 
     from django_tables2_reports.config import RequestConfigReport as RequestConfig
+    from django_tables2_reports.utils import create_report_http_response
+
+    def my_view(request):
+        objs = ....
+        table = MyTable(objs)
+        table_to_csv = RequestConfig(request).configure(table)
+        if table_to_csv:
+            return create_report_http_response(table_to_csv, request)
+        return render_to_response('app1/my_view.html',
+                                  {'table': table},
+                                  context_instance=RequestContext(request))
+
+
+If you have a lot of tables in your project, you can activate the middleware, and you do not have to change your views
+
+::
+
+    MIDDLEWARE_CLASSES = (
+
+        'django_tables2_reports.middleware.TableReportMiddleware',
+    )
+
+    ############### Now (with middleware) ######################
+
+    from django_tables2_reports.config import RequestConfigReport as RequestConfig
 
     def my_view(request):
         objs = ....
@@ -84,13 +106,33 @@ Changes in your project
                                   {'table': table},
                                   context_instance=RequestContext(request))
 
+
+2.b. If you use a `Class-based views <https://docs.djangoproject.com/en/dev/topics/class-based-views/>`:
+
+::
+
+    ############### Before ###################
+
+    from django_tables2.views import SingleTableView
+
+
+    class PhaseChangeView(SingleTableView):
+        table_class = MyTable
+        model = MyModel
+
+
+    ############### Now ######################
+
+    from django_tables2_reports.views import ReportTableView
+
+
+    class PhaseChangeView(ReportTableView):
+        table_class = MyTable
+        model = MyModel
+
+
 Usage
 =====
 
 Under the table appear a CSV icon, if you click in this icon, you get a CSV report with every item of the table (without pagination). The ordering works!
 
-
-Other way to use this application
-=================================
-
-You could not use the middleware and to change a little every view, you would get a more efficient code, but you would have to adapt every view

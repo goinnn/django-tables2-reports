@@ -14,13 +14,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
-from django_tables2_reports.utils import create_report_http_response
+from django_tables2_reports.utils import create_report_http_response, REQUEST_VARIABLE, REPORT_MYMETYPE
 
 
 class TableReportMiddleware(object):
 
     def process_response(self, request, response):
-        table = getattr(request, 'table', None)
-        if table:
-            return create_report_http_response(table, request)
+        table_to_csv = getattr(request, REQUEST_VARIABLE, None)
+        current_mymetype = response['Content-Type']
+        if table_to_csv and current_mymetype != REPORT_MYMETYPE:
+            return create_report_http_response(table_to_csv, request)
         return response
