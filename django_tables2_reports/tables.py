@@ -14,13 +14,17 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import django_tables2 as tables
+
+from django.template.context import RequestContext
+from django.template.loader import get_template
 
 from django_tables2_reports.utils import DEFAULT_PARAM_PREFIX, generate_prefixto_report
 
 
 class TableReport(tables.Table):
+
+    template_csv = 'django_tables2_reports/table_report.html'
 
     def __init__(self, *args, **kwargs):
         if not 'template' in kwargs:
@@ -28,3 +32,18 @@ class TableReport(tables.Table):
         prefix_param_report = kwargs.pop('prefix_param_report', DEFAULT_PARAM_PREFIX)
         super(TableReport, self).__init__(*args, **kwargs)
         self.param_report = generate_prefixto_report(self, prefix_param_report)
+
+    def as_report(self, request, format='csv'):
+        if format == 'csv':
+            return self.as_csv(request)
+        raise ValueError("This format %s is not accepted" % format)
+
+    def as_csv(self, request):
+        template = get_template(self.template_csv)
+        context = RequestContext(request, {"table": self})
+        context.update(request.extra_context)
+        self.context = context
+        param_report = generate_prefixto_report(self)
+        return  template.render(RequestContext(request,
+                                {'table': self,
+                                 'param_report': param_report}))

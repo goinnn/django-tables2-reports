@@ -13,7 +13,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
-
+from django.http import HttpResponse
 
 DEFAULT_PARAM_PREFIX = 'report'
 
@@ -25,3 +25,12 @@ def generate_prefixto_report(table, prefix_param_report=None):
     if prefix:
         param_report = "%s-%s" % (prefix, param_report)
     return param_report
+
+
+def create_report_http_response(table, request):
+    format = request.GET.get(table.param_report)
+    report = table.as_report(request, format)
+    filename = '%s.csv' % table.param_report
+    response = HttpResponse(report, mimetype='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    return response

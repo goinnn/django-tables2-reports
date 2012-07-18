@@ -1,6 +1,12 @@
 Releases
 ========
 
+0.0.2  (2012-07-18)
+-------------------
+
+* Add a default view (https://docs.djangoproject.com/en/dev/topics/class-based-views/)
+* Update the README
+
 0.0.1  (2012-07-17)
 -------------------
 
