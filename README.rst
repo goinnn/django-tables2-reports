@@ -52,7 +52,7 @@ Changes in your project
         ...
 
 
-2.a. Now you should use other RequestConfig and change your view:
+2.a. If you use a traditional views, now you should use other RequestConfig and change a little your view:
 
 ::
 
@@ -85,9 +85,10 @@ Changes in your project
                                   context_instance=RequestContext(request))
 
 
-If you have a lot of tables in your project, you can activate the middleware, and you do not have to change your views
+If you have a lot of tables in your project, you can activate the middleware, and you do not have to change your views, only the RequestConfig import
 
 ::
+    # In your settings 
 
     MIDDLEWARE_CLASSES = (
 
@@ -107,7 +108,7 @@ If you have a lot of tables in your project, you can activate the middleware, an
                                   context_instance=RequestContext(request))
 
 
-2.b. If you use a `Class-based views <https://docs.djangoproject.com/en/dev/topics/class-based-views/>`:
+2.b. If you use a `Class-based views <https://docs.djangoproject.com/en/dev/topics/class-based-views/>`_:
 
 ::
 
@@ -134,5 +135,5 @@ If you have a lot of tables in your project, you can activate the middleware, an
 Usage
 =====
 
-Under the table appear a CSV icon, if you click in this icon, you get a CSV report with every item of the table (without pagination). The ordering works!
+Under the table appear a CSV icon (and XLS icon if you have pyExcelerator), if you click in this icon, you get a CSV report (or xls report) with every item of the table (without pagination). The ordering works!
 
