@@ -1,6 +1,11 @@
 Releases
 ========
 
+0.0.3  (2012-07-19)
+-------------------
+
+* Fix a little error, when a column has line breaks. Now these are changed to espaces
+
 0.0.2  (2012-07-18)
 -------------------
 

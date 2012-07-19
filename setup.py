@@ -23,7 +23,7 @@ def read(*rnames):
 
 setup(
     name="django-tables2-reports",
-    version="0.0.2",
+    version="0.0.3",
     author="Pablo Martin",
     author_email="goinnn@gmail.com",
     description="With django-tables2-reports you can get a CSV report of any django-tables2 with minimal changes to your project",

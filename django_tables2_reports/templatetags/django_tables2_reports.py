@@ -22,7 +22,13 @@ register = template.Library()
 @register.filter
 def strip(value):
     return value.strip()
-strip.is_safe = True
+
+
+@register.filter
+def remove_line_breaks(value):
+    value = value.replace('\r\n', '\n')
+    value = ' '.join([strip(line) for line in value.split('\n') if line])
+    return value
 
 
 class IsStringNode(template.Node):
