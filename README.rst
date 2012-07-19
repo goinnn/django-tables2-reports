@@ -77,9 +77,9 @@ Changes in your project
     def my_view(request):
         objs = ....
         table = MyTable(objs)
-        table_to_csv = RequestConfig(request).configure(table)
-        if table_to_csv:
-            return create_report_http_response(table_to_csv, request)
+        table_to_report = RequestConfig(request).configure(table)
+        if table_to_report:
+            return create_report_http_response(table_to_report, request)
         return render_to_response('app1/my_view.html',
                                   {'table': table},
                                   context_instance=RequestContext(request))
