@@ -5,6 +5,7 @@ Releases
 -------------------
 
 * Fix a little error, when a column has line breaks. Now these are changed to espaces
+* Details
 
 0.0.2  (2012-07-18)
 -------------------
