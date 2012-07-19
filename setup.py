@@ -26,7 +26,7 @@ setup(
     version="0.0.3",
     author="Pablo Martin",
     author_email="goinnn@gmail.com",
-    description="With django-tables2-reports you can get a CSV report of any django-tables2 with minimal changes to your project",
+    description="With django-tables2-reports you can get a report (CSV, XLS) of any django-tables2 with minimal changes to your project",
     long_description=(read('README.rst') + '\n\n' + read('CHANGES')),
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -34,7 +34,7 @@ setup(
         'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
     ],
     license="LGPL 3",
-    keywords="django,tables,django-tables2,reports,CSV",
+    keywords="django,tables,django-tables2,reports,CSV, XLS",
     url='https://github.com/goinnn/django-tables2-reports',
     packages=find_packages(),
     include_package_data=True,
