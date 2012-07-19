@@ -30,11 +30,11 @@ class RequestConfigReport(RequestConfig):
         table.is_configured = True
         param_report = table.param_report
         is_report = self.request.GET.get(param_report)
-        table_to_csv = None
+        table_to_report = None
         if is_report:
             self.paginate = self.paginate_report
-            table_to_csv = table
-            setattr(self.request, REQUEST_VARIABLE, table_to_csv)
+            table_to_report = table
+            setattr(self.request, REQUEST_VARIABLE, table_to_report)
             self.request.extra_context = extra_context or {}
         super(RequestConfigReport, self).configure(table)
-        return table_to_csv
+        return table_to_report

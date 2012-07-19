@@ -20,8 +20,8 @@ from django_tables2_reports.utils import create_report_http_response, REQUEST_VA
 class TableReportMiddleware(object):
 
     def process_response(self, request, response):
-        table_to_csv = getattr(request, REQUEST_VARIABLE, None)
+        table_to_report = getattr(request, REQUEST_VARIABLE, None)
         current_mymetype = response['Content-Type']
-        if table_to_csv and current_mymetype != REPORT_MYMETYPE:
-            return create_report_http_response(table_to_csv, request)
+        if table_to_report and current_mymetype != REPORT_MYMETYPE:
+            return create_report_http_response(table_to_report, request)
         return response

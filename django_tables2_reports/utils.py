@@ -15,17 +15,22 @@
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.http import HttpResponse
-
+from django_tables2.tables import Table
 
 DEFAULT_PARAM_PREFIX = 'report'
-REQUEST_VARIABLE = 'table_to_csv'
+REQUEST_VARIABLE = 'table_to_report'
 REPORT_MYMETYPE = 'application/vnd.ms-excel'
 
 
 def generate_prefixto_report(table, prefix_param_report=None):
     param_report = prefix_param_report or DEFAULT_PARAM_PREFIX
-    param_report = "%s-%s" % (param_report, table.__class__.__name__.lower())
-    prefix = table.prefix
+    if isinstance(table, Table):
+        table_class = table.__class__
+        prefix = table.prefix
+    else:
+        table_class = table
+        prefix = None
+    param_report = "%s-%s" % (param_report, table_class.__name__.lower())
     if prefix:
         param_report = "%s-%s" % (prefix, param_report)
     return param_report
