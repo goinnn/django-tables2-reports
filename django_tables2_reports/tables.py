@@ -14,19 +14,18 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
+import csv
+
 import django_tables2 as tables
 
-from django.template.context import RequestContext
-from django.template.loader import get_template
 from django.utils.translation import ugettext as _
+from django.http import HttpResponse
+from django.utils.html import strip_tags
 
 from django_tables2_reports.csv_to_excel import HAS_PYEXCELERATOR, convert_to_excel
 from django_tables2_reports.utils import DEFAULT_PARAM_PREFIX, generate_prefixto_report
 
-
 class TableReport(tables.Table):
-
-    template_csv = 'django_tables2_reports/table_report.html'
 
     def __init__(self, *args, **kwargs):
         if not 'template' in kwargs:
@@ -46,14 +45,21 @@ class TableReport(tables.Table):
         raise ValueError("This format %s is not accepted" % format)
 
     def as_csv(self, request):
-        template = get_template(self.template_csv)
-        context = RequestContext(request, {"table": self})
-        context.update(request.extra_context)
-        self.context = context
-        param_report = generate_prefixto_report(self)
-        return template.render(RequestContext(request,
-                               {'table': self,
-                                'param_report': param_report}))
+        response = HttpResponse()
+        csv_writer = csv.writer(response)
+
+        csv_header = [ column.header for column in self.columns ]
+        csv_writer.writerow(csv_header)
+
+        if self.page is not None:
+            object_list = self.page.object_list
+        else:
+            object_list = self.rows
+
+        for row in object_list:
+            csv_writer.writerow([ strip_tags(x) for x in row ])
+
+        return response
 
     def as_xls(self, request):
         return self.as_csv(request)

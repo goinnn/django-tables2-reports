@@ -17,6 +17,7 @@
 # Get to https://github.com/Yaco-Sistemas/django-autoreports/blob/master/autoreports/csv_to_excel.py
 
 import csv
+import StringIO
 
 try:
     import pyExcelerator
@@ -68,7 +69,7 @@ def convert_to_excel(response):
     fno = 0
     lno = 0
     titleCols = []
-    content = response.content.split('\n')
+    content = StringIO.StringIO(response.content)
     reader = csv.reader(content)
     for line in reader:
         if (lno == 0 and titlePresent):
