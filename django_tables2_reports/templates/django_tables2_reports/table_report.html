@@ -1,3 +1,0 @@
-{% load django_tables2_reports %}{% block table %}{% block table.thead %}{% for column in table.columns %}{{ column.header }},{% endfor %}{% endblock table.thead %}
-{% block table.tbody %}{% for row in table.page.object_list|default:table.rows %}{% block table.tbody.row %}{% for column, cell in row.items %}{% ifstring cell %}{{ cell|striptags|strip|remove_line_breaks }}{% else %}{{ cell }}{% endifstring %},{% endfor %}{% endblock table.tbody.row %}
-{% endfor %}{% endblock table.tbody %}{% endblock table %}
