@@ -87,13 +87,8 @@ class TableReport(tables.Table):
         csv_header = [ column.header for column in self.columns ]
         csv_writer.writerow(csv_header)
 
-        if self.page is not None:
-            object_list = self.page.object_list
-        else:
-            object_list = self.rows
-
-        for row in object_list:
-            csv_writer.writerow([ strip_tags(x) for x in row ])
+        for row in self.rows:
+            csv_writer.writerow([ strip_tags(cell) for column, cell in row.items() ])
 
         return response
 

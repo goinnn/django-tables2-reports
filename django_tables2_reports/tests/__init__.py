@@ -73,3 +73,32 @@ class TestCsvGeneration(TestCase):
             ('Name,Item Num\r\n'
              'Normal string,1\r\n'
              'String with ' + unichr(0x16c) + ' char,2\r\n').encode('utf-8'))
+
+
+    def test_csv_no_pagination(self):
+        """Ensure that table pagination doesn't affect output."""
+
+        data = [
+            {
+                'name': 'page 1',
+                'item_num': 1,
+            },
+            {
+                'name': 'page 2',
+                'item_num': 2,
+            },
+        ]
+
+        table = TableReportForTesting(data)
+        table.paginate(per_page=1)
+
+        response = table.as_csv(HttpRequest())
+
+        # Ensure that even if table paginated, output is all row
+        # data.
+        self.assertEqual(
+            response.content,
+            ('Name,Item Num\r\n'
+             'page 1,1\r\n'
+             'page 2,2\r\n')
+        )
