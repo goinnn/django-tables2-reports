@@ -1,5 +1,5 @@
 include README.rst
-include CHANGES
+include CHANGES.rst
 recursive-include django_tables2_reports/*.py
 recursive-include django_tables2_reports/templates *
 recursive-include django_tables2_reports/static *
