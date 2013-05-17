@@ -9,7 +9,7 @@ With django-tables2-reports you can get a report (CSV, XLS) of any `table <http:
 Requeriments
 ============
 
-* `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0)
+* `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0, tested to 0.13.0)
 * `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4a) (This is optional, to export to xls)
 
 

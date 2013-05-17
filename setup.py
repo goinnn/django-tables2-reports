@@ -27,7 +27,7 @@ setup(
     author="Pablo Martin",
     author_email="goinnn@gmail.com",
     description="With django-tables2-reports you can get a report (CSV, XLS) of any django-tables2 with minimal changes to your project",
-    long_description=(read('README.rst') + '\n\n' + read('CHANGES')),
+    long_description=(read('README.rst') + '\n\n' + read('CHANGES.rst')),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Django',
