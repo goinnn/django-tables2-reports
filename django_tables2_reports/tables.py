@@ -15,6 +15,8 @@
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
 import csv
+import cStringIO as StringIO
+import codecs
 
 import django_tables2 as tables
 
@@ -24,6 +26,40 @@ from django.utils.html import strip_tags
 
 from django_tables2_reports.csv_to_excel import HAS_PYEXCELERATOR, convert_to_excel
 from django_tables2_reports.utils import DEFAULT_PARAM_PREFIX, generate_prefixto_report
+
+
+# Unicode CSV writer, copied direct from Python docs:
+# http://docs.python.org/2/library/csv.html
+
+class UnicodeWriter:
+    """
+    A CSV writer which will write rows to CSV file "f",
+    which is encoded in the given encoding.
+    """
+
+    def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
+        # Redirect output to a queue
+        self.queue = StringIO.StringIO()
+        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
+        self.stream = f
+        self.encoder = codecs.getincrementalencoder(encoding)()
+
+    def writerow(self, row):
+        self.writer.writerow([s.encode("utf-8") for s in row])
+        # Fetch UTF-8 output from the queue ...
+        data = self.queue.getvalue()
+        data = data.decode("utf-8")
+        # ... and reencode it into the target encoding
+        data = self.encoder.encode(data)
+        # write to the target stream
+        self.stream.write(data)
+        # empty queue
+        self.queue.truncate(0)
+
+    def writerows(self, rows):
+        for row in rows:
+            self.writerow(row)
+
 
 class TableReport(tables.Table):
 
@@ -46,7 +82,7 @@ class TableReport(tables.Table):
 
     def as_csv(self, request):
         response = HttpResponse()
-        csv_writer = csv.writer(response)
+        csv_writer = UnicodeWriter(response)
 
         csv_header = [ column.header for column in self.columns ]
         csv_writer.writerow(csv_header)
