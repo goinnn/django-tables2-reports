@@ -17,7 +17,7 @@
 # Get to https://github.com/Yaco-Sistemas/django-autoreports/blob/master/autoreports/csv_to_excel.py
 
 import csv
-import StringIO
+import cStringIO as StringIO
 
 try:
     import pyExcelerator

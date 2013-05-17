@@ -102,3 +102,40 @@ class TestCsvGeneration(TestCase):
              'page 1,1\r\n'
              'page 2,2\r\n')
         )
+
+
+class TestExcelGeneration(TestCase):
+
+    def test_escel_simple_input(self):
+        """Test ability to generate excel output with simple input data."""
+
+        # Mix of integer and string data.  Ensure that commas and
+        # quotes are escaped properly.
+        data = [
+            {
+                'name': 'Normal string',
+                'item_num': 1,
+            },
+            {
+                'name': 'String, with, commas',
+                'item_num': 2,
+            },
+            {
+                'name': 'String with " quote',
+                'item_num': 3,
+            },
+            {
+                'name': u'String with ' + unichr(0x16c) + ' char',
+                'item_num': 4,
+            }
+        ]
+
+        table = TableReportForTesting(data)
+        response = table.treatement_to_response(
+            table.as_csv(HttpRequest()),
+            format='xls')
+
+        # No assertions.  Expect conversion to xls to succeed, even with
+        # unicode chars.  Uncomment the following line and open test-file.xls
+        # manually using Excel to verify that content is correct.
+        #open('test-file.xls', 'wb').write(response.content)
