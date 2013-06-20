@@ -26,6 +26,12 @@ Installation
     )
 
 
+    TEMPLATE_CONTEXT_PROCESSORS = (
+
+        'django.core.context_processors.static',
+
+    )
+
 Changes in your project
 =======================
 
