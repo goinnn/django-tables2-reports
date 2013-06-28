@@ -24,7 +24,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 from django.utils.html import strip_tags
 
-from django_tables2_reports.csv_to_excel import HAS_PYEXCELERATOR, convert_to_excel
+from django_tables2_reports.csv_to_excel import EXCEL_SUPPORT, convert_to_excel
 from django_tables2_reports.utils import DEFAULT_PARAM_PREFIX, generate_prefixto_report
 
 
@@ -70,7 +70,7 @@ class TableReport(tables.Table):
         super(TableReport, self).__init__(*args, **kwargs)
         self.param_report = generate_prefixto_report(self, prefix_param_report)
         self.formats = [(_('CSV Report'), 'csv')]
-        if HAS_PYEXCELERATOR:
+        if EXCEL_SUPPORT:
             self.formats.append((_('XLS Report'), 'xls'))
 
     def as_report(self, request, format='csv'):
