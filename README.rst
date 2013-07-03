@@ -10,7 +10,7 @@ Requeriments
 ============
 
 * `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0, tested to 0.13.0)
-* `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4a) or `xlwt <http://pypi.python.org/pypi/xlwt/>`_ (>=7.2) (This is optional, to export to xls.  Default to xlwt if available)
+* `xlwt <http://pypi.python.org/pypi/xlwt/>`_ or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4a) or  (>=7.2) (These are optionals, to export to xls. Default to xlwt if available)
 
 
 Installation
@@ -142,5 +142,5 @@ If you have a lot of tables in your project, you can activate the middleware, an
 Usage
 =====
 
-Under the table appear a CSV icon (and XLS icon if you have pyExcelerator or xlwt), if you click in this icon, you get a CSV report (or xls report) with every item of the table (without pagination). The ordering works!
+Under the table appear a CSV icon (and XLS icon if you have xlwt or pyExcelerator in your python path), if you click in this icon, you get a CSV report (or xls report) with every item of the table (without pagination). The ordering works!
 

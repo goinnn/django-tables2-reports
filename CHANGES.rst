@@ -1,12 +1,15 @@
 Releases
 ========
 
-0.0.5  (2013-??-??)
+0.0.5  (2013-07-03)
 -------------------
 
 * Improvements in the README
+* Exportable to XLS with `xlwt <http://pypi.python.org/pypi/xlwt/>`_
 * Thanks to:
     * `Crashy23 <https://github.com/Crashy23>`_
+    * `Gamesbook <https://github.com/gamesbook>`_
+    * And spatially to `Austin Phillips <https://github.com/austinphillips2>`_
 
 
 0.0.4  (2013-05-17)
