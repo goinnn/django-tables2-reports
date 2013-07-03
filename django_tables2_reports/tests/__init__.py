@@ -106,8 +106,11 @@ class TestCsvGeneration(TestCase):
 
 class TestExcelGeneration(TestCase):
 
-    def test_escel_simple_input(self):
+    def test_excel_simple_input(self):
         """Test ability to generate excel output with simple input data."""
+
+        if not django_tables2_reports.csv_to_excel.EXCEL_SUPPORT:
+            return
 
         # Mix of integer and string data.  Ensure that commas and
         # quotes are escaped properly.
@@ -138,4 +141,4 @@ class TestExcelGeneration(TestCase):
         # No assertions.  Expect conversion to xls to succeed, even with
         # unicode chars.  Uncomment the following line and open test-file.xls
         # manually using Excel to verify that content is correct.
-        #open('test-file.xls', 'wb').write(response.content)
+        open('test-file.xls', 'wb').write(response.content)
