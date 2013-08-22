@@ -4,6 +4,12 @@
 Django tables2 report
 =====================
 
+.. image:: https://badge.fury.io/py/django-tables2-reports.png
+    :target: https://badge.fury.io/py/django-tables2-reports
+
+.. image:: https://pypip.in/d/django-tables2-reports/badge.png
+    :target: https://pypi.python.org/pypi/django-tables2-reports
+
 With django-tables2-reports you can get a report (CSV, XLS) of any `table <http://pypi.python.org/pypi/django-tables2/>`_  with **minimal changes** to your project
 
 Requeriments
@@ -11,6 +17,8 @@ Requeriments
 
 * `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0, tested to 0.13.0)
 * `xlwt <http://pypi.python.org/pypi/xlwt/>`_ or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4a) or  (>=7.2) (These are optionals, to export to xls. Default to xlwt if available)
+
+If you use python3, and you want export to xls use this version of the `xlwt <https://github.com/edschofield/xlwt>`_ if this `pull requests <https://github.com/python-excel/xlwt/pull/32>`_ is not merged still.
 
 
 Installation
