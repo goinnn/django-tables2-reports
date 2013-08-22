@@ -8,19 +8,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-18 14:03+0200\n"
+"POT-Creation-Date: 2013-08-22 06:49-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: Pablo Martín <goinnn@gmail.com>\n"
+"Language-Team: ES <goinnn@gmail.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: tables.py:37
+#: tables.py:84
 msgid "CSV Report"
 msgstr "Informe CSV"
 
-#: tables.py:39
+#: tables.py:86
 msgid "XLS Report"
 msgstr "Informe XLS"
