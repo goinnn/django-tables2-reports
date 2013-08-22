@@ -17,23 +17,38 @@
 # Get to https://github.com/Yaco-Sistemas/django-autoreports/blob/master/autoreports/csv_to_excel.py
 
 import csv
-import cStringIO as StringIO
+import sys
+
+PY3 = sys.version > '3'
+
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
+
 import collections
 
 # Autodetect library to use for xls writing.  Default to xlwt.
 EXCEL_SUPPORT = None
-try:
-    import xlwt
-    EXCEL_SUPPORT = 'xlwt'
-except ImportError:
-    pass
-
-if EXCEL_SUPPORT is None:
+if PY3:
     try:
-        import pyExcelerator
-        EXCEL_SUPPORT = 'pyexcelerator'
+        import xlwt
+        EXCEL_SUPPORT = 'xlwt'
     except ImportError:
-            pass
+        pass
+else:
+    try:
+        import xlwt
+        EXCEL_SUPPORT = 'xlwt'
+    except ImportError:
+        pass
+
+    if EXCEL_SUPPORT is None:
+        try:
+            import pyExcelerator
+            EXCEL_SUPPORT = 'pyexcelerator'
+        except ImportError:
+                pass
 
 
 def openExcelSheet():
@@ -78,7 +93,7 @@ def convert_to_excel_pyexcelerator(response):
     fno = 0
     lno = 0
     titleCols = []
-    content = StringIO.StringIO(response.content)
+    content = StringIO(response.content)
     reader = csv.reader(content)
     for line in reader:
         if (lno == 0 and titlePresent):
@@ -106,12 +121,13 @@ def write_xlwt_row(ws, lno, cell_text, cell_widths, style=None):
     """Write row of utf-8 encoded data to worksheet, keeping track of maximum
     column width for each cell.
     """
-
     if style is None:
         style = xlwt.Style.default_style
 
     for cno, utf8_text in enumerate(cell_text):
-        cell_text = utf8_text.decode('utf-8')
+        cell_text = utf8_text
+        if not PY3:
+            cell_text = cell_text.decode('utf-8')
         ws.write(lno, cno, cell_text, style)
         cell_widths[cno] = max(cell_widths[cno],
                                get_xls_col_width(cell_text, style))
@@ -133,8 +149,10 @@ def convert_to_excel_xlwt(response):
 
     # Cell width information kept for every column, indexed by column number.
     cell_widths = collections.defaultdict(lambda: 0)
-
-    content = StringIO.StringIO(response.content)
+    if PY3:
+        content = StringIO(response.content.decode('utf-8').replace('\x00', ''))
+    else:
+        content = StringIO(response.content)
     reader = csv.reader(content)
     for lno, line in enumerate(reader):
         if lno == 0:
@@ -145,7 +163,7 @@ def convert_to_excel_xlwt(response):
         write_xlwt_row(ws, lno, line, cell_widths, style)
 
     # Roughly autosize output column widths based on maximum column size.
-    for col, width in cell_widths.iteritems():
+    for col, width in cell_widths.items():
         ws.col(col).width = width
 
     response.content = ''
