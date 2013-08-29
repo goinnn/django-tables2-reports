@@ -1,6 +1,14 @@
 Releases
 ========
 
+0.0.7 (2013-08-29)
+------------------
+
+* Russian translations
+* Thanks to:
+    * `Armicron <https://github.com/armicron>`_
+
+
 0.0.6  (2013-08-22)
 -------------------
 
