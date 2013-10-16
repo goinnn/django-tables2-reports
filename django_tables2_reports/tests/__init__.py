@@ -110,7 +110,8 @@ class TestExcelGeneration(TestCase):
         """Test ability to generate excel output with simple input data."""
 
         if not django_tables2_reports.csv_to_excel.EXCEL_SUPPORT:
-            return
+            self.skipTest(
+                "No Excel support, please install xlwt, pyExcelerator or openpyxl")
 
         # Mix of integer and string data.  Ensure that commas and
         # quotes are escaped properly.
