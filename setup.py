@@ -23,7 +23,7 @@ def read(*rnames):
 
 setup(
     name="django-tables2-reports",
-    version="0.0.6",
+    version="0.0.8",
     author="Pablo Martin",
     author_email="goinnn@gmail.com",
     description="With django-tables2-reports you can get a report (CSV, XLS) of any django-tables2 with minimal changes to your project",
@@ -32,6 +32,8 @@ setup(
         'Development Status :: 4 - Beta',
         'Framework :: Django',
         'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
     ],
     license="LGPL 3",
     keywords="django,tables,django-tables2,reports,CSV, XLS",

@@ -15,7 +15,14 @@
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
 import csv
-import cStringIO as StringIO
+import sys
+
+PY3 = sys.version > '3'
+
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
 import codecs
 
 import django_tables2 as tables
@@ -39,16 +46,21 @@ class UnicodeWriter:
 
     def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
         # Redirect output to a queue
-        self.queue = StringIO.StringIO()
+        self.queue = StringIO()
         self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
         self.stream = f
         self.encoder = codecs.getincrementalencoder(encoding)()
 
     def writerow(self, row):
-        self.writer.writerow([s.encode("utf-8") for s in row])
-        # Fetch UTF-8 output from the queue ...
-        data = self.queue.getvalue()
-        data = data.decode("utf-8")
+        if PY3:
+            self.writer.writerow([s for s in row])
+            # Fetch UTF-8 output from the queue ...
+            data = self.queue.getvalue()
+        else:
+            self.writer.writerow([s.encode("utf-8") for s in row])
+            # Fetch UTF-8 output from the queue ...
+            data = self.queue.getvalue()
+            data = data.decode("utf-8")
         # ... and reencode it into the target encoding
         data = self.encoder.encode(data)
         # write to the target stream
@@ -84,11 +96,11 @@ class TableReport(tables.Table):
         response = HttpResponse()
         csv_writer = UnicodeWriter(response)
 
-        csv_header = [ column.header for column in self.columns ]
+        csv_header = [column.header for column in self.columns]
         csv_writer.writerow(csv_header)
 
         for row in self.rows:
-            csv_writer.writerow([ strip_tags(cell) for column, cell in row.items() ])
+            csv_writer.writerow([strip_tags(cell) for column, cell in row.items()])
 
         return response
 

@@ -1,6 +1,22 @@
 Releases
 ========
 
+0.0.7 (2013-08-29)
+------------------
+
+* Russian translations
+* Thanks to:
+    * `Armicron <https://github.com/armicron>`_
+
+
+0.0.6  (2013-08-22)
+-------------------
+
+* Python3 support
+* Polish translation
+* Thanks to:
+    * `Michał Pasternak <https://github.com/mpasternak>`_
+
 0.0.5  (2013-07-03)
 -------------------
 
