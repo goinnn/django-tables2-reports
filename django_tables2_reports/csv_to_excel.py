@@ -173,7 +173,10 @@ def convert_to_excel_openpyxl(response):
 
     cell_widths = collections.defaultdict(lambda: 0)
 
-    content = StringIO.StringIO(response.content)
+    if PY3:
+        content = StringIO(response.content.decode('utf-8').replace('\x00', ''))
+    else:
+        content = StringIO(response.content)
     reader = csv.reader(content)
     for lno, line in enumerate(reader):
         write_openpyxl_row(ws, lno, line, cell_widths)
