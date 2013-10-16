@@ -1,6 +1,7 @@
+from crispy_forms.tests.utils import override_settings
 from django.test import TestCase
 from django.http import HttpRequest
-
+from django.utils.unittest import skipIf
 
 import django_tables2
 import django_tables2_reports.tables
@@ -104,18 +105,14 @@ class TestCsvGeneration(TestCase):
         )
 
 
+@skipIf(
+    not django_tables2_reports.csv_to_excel.get_excel_support(),
+    "No Excel support, please install xlwt, pyExcelerator or openpyxl")
 class TestExcelGeneration(TestCase):
-
-    def test_excel_simple_input(self):
-        """Test ability to generate excel output with simple input data."""
-
-        if not django_tables2_reports.csv_to_excel.EXCEL_SUPPORT:
-            self.skipTest(
-                "No Excel support, please install xlwt, pyExcelerator or openpyxl")
-
+    def setUp(self):
         # Mix of integer and string data.  Ensure that commas and
         # quotes are escaped properly.
-        data = [
+        self.data = [
             {
                 'name': 'Normal string',
                 'item_num': 1,
@@ -133,13 +130,23 @@ class TestExcelGeneration(TestCase):
                 'item_num': 4,
             }
         ]
+        self.table = TableReportForTesting(self.data)
 
-        table = TableReportForTesting(data)
-        response = table.treatement_to_response(
-            table.as_csv(HttpRequest()),
+    def test_excel_simple_input(self):
+        """Test ability to generate excel output with simple input data."""
+
+        response = self.table.treatement_to_response(
+            self.table.as_csv(HttpRequest()),
             format='xls')
 
         # No assertions.  Expect conversion to xls to succeed, even with
         # unicode chars.  Uncomment the following line and open test-file.xls
         # manually using Excel to verify that content is correct.
-        open('test-file.xls', 'wb').write(response.content)
+        # open('test-file.xls', 'wb').write(response.content)
+
+    @override_settings(EXCEL_SUPPORT="openpyxl")
+    def test_openpyxls(self):
+        response = self.table.treatement_to_response(
+            self.table.as_csv(HttpRequest()),
+            format='xls')
+        open('test-file.xlsx', 'wb').write(response.content)

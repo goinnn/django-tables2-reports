@@ -20,24 +20,10 @@ import csv
 import cStringIO as StringIO
 import collections
 
-# Autodetect library to use for xls writing.  Default to xlwt.
-EXCEL_SUPPORT = None
-try:
-    import xlwt
-    EXCEL_SUPPORT = 'xlwt'
-except ImportError:
-    pass
-
-if EXCEL_SUPPORT is None:
-    try:
-        import pyExcelerator
-        EXCEL_SUPPORT = 'pyexcelerator'
-    except ImportError:
-            pass
-
 
 def openExcelSheet():
     """ Opens a reference to an Excel WorkBook and Worksheet objects """
+    import pyExcelerator
     workbook = pyExcelerator.Workbook()
     worksheet = workbook.add_sheet("Sheet 1")
     return workbook, worksheet
@@ -106,7 +92,7 @@ def write_xlwt_row(ws, lno, cell_text, cell_widths, style=None):
     """Write row of utf-8 encoded data to worksheet, keeping track of maximum
     column width for each cell.
     """
-
+    import xlwt
     if style is None:
         style = xlwt.Style.default_style
 
@@ -121,6 +107,7 @@ def convert_to_excel_xlwt(response):
     """Replace HttpResponse csv content with excel formatted data using xlwt
     library.
     """
+    import xlwt
     # Styles used in the spreadsheet.  Headings are bold.
     header_font = xlwt.Font()
     header_font.bold = True
@@ -152,10 +139,57 @@ def convert_to_excel_xlwt(response):
     wb.save(response)
 
 
+def write_openpyxl_row(ws, lno, cell_text):
+    for cno, utf8_text in enumerate(cell_text):
+        cell_text = utf8_text.decode('utf-8')
+        ws.cell(column=cno, row=lno).value = cell_text
+
+
+def convert_to_excel_openpyxl(response):
+    import openpyxl
+
+    wb = openpyxl.Workbook()
+    ws = wb.get_active_sheet()
+
+    content = StringIO.StringIO(response.content)
+    reader = csv.reader(content)
+    for lno, line in enumerate(reader):
+        write_openpyxl_row(ws, lno, line)
+
+    response.content = ''
+    wb.save(response)
+
+
+def get_excel_support():
+    # Autodetect library to use for xls writing.  Default to xlwt.
+    from django.conf import settings
+    EXCEL_SUPPORT = getattr(settings, "EXCEL_SUPPORT", "xlwt")
+
+    if EXCEL_SUPPORT:
+        return EXCEL_SUPPORT
+
+    try:
+        import xlwt
+        return 'xlwt'
+    except ImportError:
+        try:
+            import pyExcelerator
+            return 'pyexcelerator'
+        except ImportError:
+            try:
+                import openpyxl
+                return 'openpyxl'
+            except ImportError:
+                pass
+
 def convert_to_excel(response):
+    EXCEL_SUPPORT = get_excel_support()
+
     if EXCEL_SUPPORT == 'xlwt':
         convert_to_excel_xlwt(response)
     elif EXCEL_SUPPORT == 'pyexcelerator':
         convert_to_excel_pyexcelerator(response)
+    elif EXCEL_SUPPORT == 'openpyxl':
+        convert_to_excel_openpyxl(response)
     else:
         raise RuntimeError("No support for xls generation available")
