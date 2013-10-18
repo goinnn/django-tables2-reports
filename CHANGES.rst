@@ -1,6 +1,13 @@
 Releases
 ========
 
+0.0.8 (next wednesday)
+----------------------
+* support for `openpyxl <http://pythonhosted.org/openpyxl/>`_
+* test project (login as test/test)
+* Thanks to:
+    * `Michał Pasternak <https://github.com/mpasternak>`_
+
 0.0.7 (2013-08-29)
 ------------------
 

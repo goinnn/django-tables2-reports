@@ -16,9 +16,9 @@ Requeriments
 ============
 
 * `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0, tested to 0.13.0 and 0.14.0)
-* `xlwt <http://pypi.python.org/pypi/xlwt/>`_ or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4a) or  (>=7.2) (These are optionals, to export to xls. Default to xlwt if available)
+* `xlwt <http://pypi.python.org/pypi/xlwt/>`_ or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4a) or  (>=7.2) or `openpyxl <http://pythonhosted.org/openpyxl/>`_ (These are optionals, to export to xls. Default to xlwt if available)
 
-If you use python3, and you want export to xls use this version of the `xlwt (fork) <https://github.com/edschofield/xlwt/>`_ if this `pull request <https://github.com/python-excel/xlwt/pull/32>`_ is not merged still.
+If you use python3, and you want export to xls use this version of the `xlwt (fork) <https://github.com/edschofield/xlwt/>`_ if this `pull request <https://github.com/python-excel/xlwt/pull/32>`_ is not merged still .
 
 
 Installation
@@ -39,6 +39,11 @@ Installation
         'django.core.context_processors.static',
 
     )
+
+
+    # This is optional
+
+    EXCEL_SUPPORT = 'xlwt' # or 'openpyxl' or 'pyexcelerator'
 
 Changes in your project
 =======================
@@ -152,3 +157,12 @@ Usage
 
 Under the table appear a CSV icon (and XLS icon if you have xlwt or pyExcelerator in your python path), if you click in this icon, you get a CSV report (or xls report) with every item of the table (without pagination). The ordering works!
 
+Test project
+============
+
+In the source tree, you will find a directory called 'test_project'. It contains
+a readily setup project that uses django-tables2-reports. You can run it as usual:
+
+::
+
+    python manage.py start
