@@ -195,7 +195,7 @@ def get_excel_support():
     # Autodetect library to use for xls writing.  Default to xlwt.
     from django.conf import settings
 
-    EXCEL_SUPPORT = getattr(settings, "EXCEL_SUPPORT", "xlwt")
+    EXCEL_SUPPORT = getattr(settings, "EXCEL_SUPPORT", None)
 
     if EXCEL_SUPPORT:
         return EXCEL_SUPPORT
