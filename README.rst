@@ -1,8 +1,14 @@
 .. contents::
 
 =====================
-Django tables2 report
+django-tables2-report
 =====================
+
+.. image:: https://travis-ci.org/goinnn/django-tables2-reports.png?branch=master
+    :target: https://travis-ci.org/goinnn/django-tables2-reports
+
+.. image:: https://coveralls.io/repos/goinnn/django-tables2-reports/badge.png?branch=master
+    :target: https://coveralls.io/r/goinnn/django-tables2-reports
 
 .. image:: https://badge.fury.io/py/django-tables2-reports.png
     :target: https://badge.fury.io/py/django-tables2-reports
@@ -15,10 +21,11 @@ With django-tables2-reports you can get a report (CSV, XLS) of any `table <http:
 Requeriments
 ============
 
-* `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0, tested to 0.13.0 and 0.14.0)
-* `xlwt <http://pypi.python.org/pypi/xlwt/>`_ or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4a) or  (>=7.2) or `openpyxl <http://pythonhosted.org/openpyxl/>`_ (These are optionals, to export to xls. Default to xlwt if available)
+* `django <http://pypi.python.org/pypi/django/>`_ (>=1.3)
+* `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0, tested with 0.14.0)
+* `xlwt <http://pypi.python.org/pypi/xlwt/>`_ (>=0.7.5), `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4.1) or `openpyxl <http://pythonhosted.org/openpyxl/>`_ (>=1.6.2) (These are optionals, to export to xls. Default to xlwt if available)
 
-If you use python3, and you want export to xls use this version of the `xlwt (fork) <https://github.com/edschofield/xlwt/>`_ if this `pull request <https://github.com/python-excel/xlwt/pull/32>`_ is not merged still .
+If you use python3, and you want export to xls use this version of the `xlwt (fork) <https://github.com/edschofield/xlwt/>`_ if this `pull request <https://github.com/python-excel/xlwt/pull/32>`_ is not merged still , or use `openpyxl <http://pythonhosted.org/openpyxl/>`_
 
 
 Installation

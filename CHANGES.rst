@@ -3,8 +3,10 @@ Releases
 
 0.0.8 (next wednesday)
 ----------------------
-* support for `openpyxl <http://pythonhosted.org/openpyxl/>`_
-* test project (login as test/test)
+* Integration with travis and coveralls
+* Fix test with python 3
+* Support for `openpyxl <http://pythonhosted.org/openpyxl/>`_
+* Test project (login as test/test)
 * Thanks to:
     * `Michał Pasternak <https://github.com/mpasternak>`_
 
