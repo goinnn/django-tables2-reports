@@ -7,7 +7,7 @@ django-tables2-report
 .. image:: https://travis-ci.org/goinnn/django-tables2-reports.png?branch=master
     :target: https://travis-ci.org/goinnn/django-tables2-reports
 
-.. image:: https://coveralls.io/repos/goinnn/django-tables2-reports/badge.png?branch=master
+.. image:: https://coveralls.io/repos/goinnn/django-tables2-reports/badge.png
     :target: https://coveralls.io/r/goinnn/django-tables2-reports
 
 .. image:: https://badge.fury.io/py/django-tables2-reports.png
@@ -25,7 +25,7 @@ Requeriments
 * `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0, tested with 0.14.0)
 * `xlwt <http://pypi.python.org/pypi/xlwt/>`_ (>=0.7.5), `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4.1) or `openpyxl <http://pythonhosted.org/openpyxl/>`_ (>=1.6.2) (These are optionals, to export to xls. Default to xlwt if available)
 
-If you use python3, and you want export to xls use this version of the `xlwt (fork) <https://github.com/edschofield/xlwt/>`_ if this `pull request <https://github.com/python-excel/xlwt/pull/32>`_ is not merged still , or use `openpyxl <http://pythonhosted.org/openpyxl/>`_
+If you use python3, and you want export to xls use this version of the `xlwt (fork) <https://github.com/goinnn/xlwt-future/>`_ if this `pull request <https://github.com/python-excel/xlwt/pull/32>`_ is not merged still , or use `openpyxl <http://pythonhosted.org/openpyxl/>`_
 
 
 Installation
