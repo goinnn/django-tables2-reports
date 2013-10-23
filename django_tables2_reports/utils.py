@@ -16,6 +16,7 @@
 
 from django.http import HttpResponse
 from django_tables2.tables import Table
+from csv_to_excel import get_excel_support
 
 DEFAULT_PARAM_PREFIX = 'report'
 REQUEST_VARIABLE = 'table_to_report'
@@ -39,7 +40,10 @@ def generate_prefixto_report(table, prefix_param_report=None):
 def create_report_http_response(table, request):
     format = request.GET.get(table.param_report)
     report = table.as_report(request, format=format)
-    filename = '%s.%s' % (table.param_report, format)
+    extension = format
+    if get_excel_support() == "openpyxl":
+        extension = 'xlsx'
+    filename = '%s.%s' % (table.param_report, extension)
     response = HttpResponse(report, mimetype=REPORT_MYMETYPE)
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     response = table.treatement_to_response(response, format=format)

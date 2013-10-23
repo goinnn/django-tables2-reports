@@ -3,3 +3,7 @@
 *.pyc
 *.py~
 local_settings.py
+.idea
+build
+dist
+*.egg-info

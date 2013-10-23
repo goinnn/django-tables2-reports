@@ -1,22 +1,25 @@
- # Copyright (c) 2010 by Yaco Sistemas <pmartin@yaco.es>
- #
- # This program is free software: you can redistribute it and/or modify
- # it under the terms of the GNU Lesser General Public License as published by
- # the Free Software Foundation, either version 3 of the License, or
- # (at your option) any later version.
- #
- # This program is distributed in the hope that it will be useful,
- # but WITHOUT ANY WARRANTY; without even the implied warranty of
- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- # GNU Lesser General Public License for more details.
- #
- # You should have received a copy of the GNU Lesser General Public License
- # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright (c) 2010 by Yaco Sistemas <pmartin@yaco.es>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
 # Based on http://sujitpal.blogspot.com/2007/02/python-script-to-convert-csv-files-to.html
 # Get to https://github.com/Yaco-Sistemas/django-autoreports/blob/master/autoreports/csv_to_excel.py
 
 import csv
+import cStringIO as StringIO
+import collections
+from openpyxl.cell import get_column_letter
 import sys
 
 PY3 = sys.version > '3'
@@ -28,31 +31,11 @@ except ImportError:
 
 import collections
 
-# Autodetect library to use for xls writing.  Default to xlwt.
-EXCEL_SUPPORT = None
-if PY3:
-    try:
-        import xlwt
-        EXCEL_SUPPORT = 'xlwt'
-    except ImportError:
-        pass
-else:
-    try:
-        import xlwt
-        EXCEL_SUPPORT = 'xlwt'
-    except ImportError:
-        pass
-
-    if EXCEL_SUPPORT is None:
-        try:
-            import pyExcelerator
-            EXCEL_SUPPORT = 'pyexcelerator'
-        except ImportError:
-                pass
-
 
 def openExcelSheet():
     """ Opens a reference to an Excel WorkBook and Worksheet objects """
+    import pyExcelerator
+
     workbook = pyExcelerator.Workbook()
     worksheet = workbook.add_sheet("Sheet 1")
     return workbook, worksheet
@@ -121,6 +104,8 @@ def write_xlwt_row(ws, lno, cell_text, cell_widths, style=None):
     """Write row of utf-8 encoded data to worksheet, keeping track of maximum
     column width for each cell.
     """
+    import xlwt
+
     if style is None:
         style = xlwt.Style.default_style
 
@@ -137,6 +122,7 @@ def convert_to_excel_xlwt(response):
     """Replace HttpResponse csv content with excel formatted data using xlwt
     library.
     """
+    import xlwt
     # Styles used in the spreadsheet.  Headings are bold.
     header_font = xlwt.Font()
     header_font.bold = True
@@ -170,10 +156,76 @@ def convert_to_excel_xlwt(response):
     wb.save(response)
 
 
+def write_openpyxl_row(ws, lno, cell_text, cell_widths):
+    for cno, utf8_text in enumerate(cell_text):
+        cell_text = utf8_text.decode('utf-8')
+        ws.cell(column=cno, row=lno).value = cell_text
+        cell_widths[cno] = max(
+            cell_widths[cno],
+            len(cell_text))
+
+
+def convert_to_excel_openpyxl(response):
+    import openpyxl
+
+    wb = openpyxl.Workbook()
+    ws = wb.get_active_sheet()
+
+    cell_widths = collections.defaultdict(lambda: 0)
+
+    if PY3:
+        content = StringIO(response.content.decode('utf-8').replace('\x00', ''))
+    else:
+        content = StringIO(response.content)
+    reader = csv.reader(content)
+    for lno, line in enumerate(reader):
+        write_openpyxl_row(ws, lno, line, cell_widths)
+
+    # Roughly autosize output column widths based on maximum column size
+    # and add bold style for the header
+    for i, cell_width in cell_widths.items():
+        ws.cell(column=i, row=0).style.font.bold = True
+        ws.column_dimensions[get_column_letter(i+1)].width = cell_width
+
+    response.content = ''
+    wb.save(response)
+
+
+def get_excel_support():
+    # Autodetect library to use for xls writing.  Default to xlwt.
+    from django.conf import settings
+
+    EXCEL_SUPPORT = getattr(settings, "EXCEL_SUPPORT", "xlwt")
+
+    if EXCEL_SUPPORT:
+        return EXCEL_SUPPORT
+
+    try:
+        import xlwt
+
+        return 'xlwt'
+    except ImportError:
+        try:
+            import pyExcelerator
+
+            return 'pyexcelerator'
+        except ImportError:
+            try:
+                import openpyxl
+
+                return 'openpyxl'
+            except ImportError:
+                pass
+
+
 def convert_to_excel(response):
+    EXCEL_SUPPORT = get_excel_support()
+
     if EXCEL_SUPPORT == 'xlwt':
         convert_to_excel_xlwt(response)
     elif EXCEL_SUPPORT == 'pyexcelerator':
         convert_to_excel_pyexcelerator(response)
+    elif EXCEL_SUPPORT == 'openpyxl':
+        convert_to_excel_openpyxl(response)
     else:
         raise RuntimeError("No support for xls generation available")
