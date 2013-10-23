@@ -1,0 +1,46 @@
+[
+    {
+        "pk": 1, 
+        "model": "test_app.person", 
+        "fields": {
+            "last": "Kovalsky", 
+            "first": "John", 
+            "dob": "2013-10-18",
+            "active": true
+
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "test_app.person", 
+        "fields": {
+            "last": "Thomson", 
+            "first": "John", 
+            "dob": "1982-11-14",
+            "active": false
+
+        }
+    },
+    {
+        "pk": 3, 
+        "model": "test_app.person", 
+        "fields": {
+            "last": "Johnson", 
+            "first": "Tom", 
+            "dob": "1985-07-01",
+            "active": false
+
+        }
+    },
+    {
+        "pk": 4, 
+        "model": "test_app.person", 
+        "fields": {
+            "last": "Garcia", 
+            "first": "Manolo", 
+            "dob": "2013-10-18",
+            "active": true
+
+        }
+    }
+]

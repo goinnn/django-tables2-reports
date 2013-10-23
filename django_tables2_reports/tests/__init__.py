@@ -1,11 +1,34 @@
-from crispy_forms.tests.utils import override_settings
-from django.test import TestCase
+# -*- coding: utf-8 -*-
+# Copyright (c) 2012-2013 by Pablo Martín <goinnn@gmail.com>
+#
+# This software is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This software is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this software.  If not, see <http://www.gnu.org/licenses/>.
+
+import sys
+
+from django.conf import settings
 from django.http import HttpRequest
+from django.test import TestCase
 from django.utils.unittest import skipIf
 
 import django_tables2
 import django_tables2_reports.tables
 import django_tables2_reports.views
+
+
+PY3 = sys.version_info[0] == 3
+if PY3:
+    unichr = chr
 
 
 class TableReportForTesting(django_tables2_reports.tables.TableReport):
@@ -42,10 +65,13 @@ class TestCsvGeneration(TestCase):
 
         table = TableReportForTesting(data)
         response = table.as_csv(HttpRequest())
-
+        self.assertEqual(response.status_code, 200)
         # Expect cells containing commas to be escaped with quotes.
+        content = response.content
+        if PY3:
+            content = content.decode('utf-8').replace('\x00', '')
         self.assertEqual(
-            response.content,
+            content,
             'Name,Item Num\r\n'
             'Normal string,1\r\n'
             '"String, with, commas",2\r\n'
@@ -67,14 +93,17 @@ class TestCsvGeneration(TestCase):
 
         table = TableReportForTesting(data)
         response = table.as_csv(HttpRequest())
-
+        self.assertEqual(response.status_code, 200)
         # Expect csv content to be utf-8 encoded.
-        self.assertEqual(
-            response.content,
-            ('Name,Item Num\r\n'
-             'Normal string,1\r\n'
-             'String with ' + unichr(0x16c) + ' char,2\r\n').encode('utf-8'))
-
+        content = response.content
+        result = ('Name,Item Num\r\n'
+                  'Normal string,1\r\n'
+                  'String with ' + unichr(0x16c) + ' char,2\r\n')
+        if PY3:
+            content = content.decode('utf-8').replace('\x00', '')
+        else:
+            result = result.encode('utf-8')
+        self.assertEqual(content, result)
 
     def test_csv_no_pagination(self):
         """Ensure that table pagination doesn't affect output."""
@@ -94,11 +123,14 @@ class TestCsvGeneration(TestCase):
         table.paginate(per_page=1)
 
         response = table.as_csv(HttpRequest())
-
+        self.assertEqual(response.status_code, 200)
         # Ensure that even if table paginated, output is all row
         # data.
+        content = response.content
+        if PY3:
+            content = content.decode('utf-8').replace('\x00', '')
         self.assertEqual(
-            response.content,
+            content,
             ('Name,Item Num\r\n'
              'page 1,1\r\n'
              'page 2,2\r\n')
@@ -134,19 +166,24 @@ class TestExcelGeneration(TestCase):
 
     def test_excel_simple_input(self):
         """Test ability to generate excel output with simple input data."""
-
+        excel_support = getattr(settings, 'EXCEL_SUPPORT', django_tables2_reports.csv_to_excel.get_excel_support())
         response = self.table.treatement_to_response(
             self.table.as_csv(HttpRequest()),
             format='xls')
+        self.assertEqual(response.status_code, 200)
+        open('test-file-%s.xlsx' % excel_support,
+             'wb').write(response.content)
 
-        # No assertions.  Expect conversion to xls to succeed, even with
-        # unicode chars.  Uncomment the following line and open test-file.xls
-        # manually using Excel to verify that content is correct.
-        # open('test-file.xls', 'wb').write(response.content)
+    def test_pyexcelerator(self):
+        if PY3:
+            return
+        settings.EXCEL_SUPPORT = "pyexcelerator"
+        self.test_excel_simple_input()
 
-    @override_settings(EXCEL_SUPPORT="openpyxl")
+    def test_xlwt(self):
+        settings.EXCEL_SUPPORT = "xlwt"
+        self.test_excel_simple_input()
+
     def test_openpyxls(self):
-        response = self.table.treatement_to_response(
-            self.table.as_csv(HttpRequest()),
-            format='xls')
-        open('test-file.xlsx', 'wb').write(response.content)
+        settings.EXCEL_SUPPORT = "openpyxl"
+        self.test_excel_simple_input()

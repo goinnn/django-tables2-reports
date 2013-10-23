@@ -1,13 +1,12 @@
+{% load render_table from django_tables2 %}
 <!DOCTYPE html>
 <html>
-<head>
-    <title></title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css"/>
-</head>
-<body>
-{% load render_table from django_tables2 %}
-
-{% render_table table %}
-
-</body>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css"/>
+    </head>
+    <body>
+        <h1>Person table</h1>
+        {% render_table table %}
+    </body>
 </html>

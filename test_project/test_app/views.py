@@ -9,6 +9,7 @@ class TestTable(TableReport):
         model = Person
         attrs = {"class": "paleblue"}
 
+
 class TestView(ReportTableView):
     table_class = TestTable
     model = Person

@@ -1,0 +1,12 @@
+[run]
+source = django_tables2_reports
+omit =
+    test_project/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    def parse_args
