@@ -15,15 +15,15 @@
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
 import csv
+import codecs
 import sys
 
-PY3 = sys.version > '3'
+PY3 = sys.version_info[0] == 3
 
 try:
     from cStringIO import StringIO
 except ImportError:
     from io import StringIO
-import codecs
 
 import django_tables2 as tables
 

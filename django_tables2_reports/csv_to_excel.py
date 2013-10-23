@@ -1,41 +1,35 @@
-# Copyright (c) 2010 by Yaco Sistemas <pmartin@yaco.es>
+# -*- coding: utf-8 -*-
+# Copyright (c) 2012-2013 by Pablo Martín <goinnn@gmail.com>
 #
-# This program is free software: you can redistribute it and/or modify
+# This software is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful,
+# This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with this programe.  If not, see <http://www.gnu.org/licenses/>.
+# along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
-# Based on http://sujitpal.blogspot.com/2007/02/python-script-to-convert-csv-files-to.html
-# Get to https://github.com/Yaco-Sistemas/django-autoreports/blob/master/autoreports/csv_to_excel.py
 
 import csv
-import cStringIO as StringIO
 import collections
-from openpyxl.cell import get_column_letter
 import sys
 
-PY3 = sys.version > '3'
+PY3 = sys.version_info[0] == 3
 
 try:
     from cStringIO import StringIO
 except ImportError:
     from io import StringIO
 
-import collections
-
 
 def openExcelSheet():
     """ Opens a reference to an Excel WorkBook and Worksheet objects """
     import pyExcelerator
-
     workbook = pyExcelerator.Workbook()
     worksheet = workbook.add_sheet("Sheet 1")
     return workbook, worksheet
@@ -105,10 +99,8 @@ def write_xlwt_row(ws, lno, cell_text, cell_widths, style=None):
     column width for each cell.
     """
     import xlwt
-
     if style is None:
         style = xlwt.Style.default_style
-
     for cno, utf8_text in enumerate(cell_text):
         cell_text = utf8_text
         if not PY3:
@@ -157,8 +149,9 @@ def convert_to_excel_xlwt(response):
 
 
 def write_openpyxl_row(ws, lno, cell_text, cell_widths):
-    for cno, utf8_text in enumerate(cell_text):
-        cell_text = utf8_text.decode('utf-8')
+    for cno, cell_text in enumerate(cell_text):
+        if not PY3:
+            cell_text = cell_text.decode('utf-8')
         ws.cell(column=cno, row=lno).value = cell_text
         cell_widths[cno] = max(
             cell_widths[cno],
@@ -166,9 +159,9 @@ def write_openpyxl_row(ws, lno, cell_text, cell_widths):
 
 
 def convert_to_excel_openpyxl(response):
-    import openpyxl
-
-    wb = openpyxl.Workbook()
+    from openpyxl import Workbook
+    from openpyxl.cell import get_column_letter
+    wb = Workbook()
     ws = wb.get_active_sheet()
 
     cell_widths = collections.defaultdict(lambda: 0)
@@ -185,7 +178,7 @@ def convert_to_excel_openpyxl(response):
     # and add bold style for the header
     for i, cell_width in cell_widths.items():
         ws.cell(column=i, row=0).style.font.bold = True
-        ws.column_dimensions[get_column_letter(i+1)].width = cell_width
+        ws.column_dimensions[get_column_letter(i + 1)].width = cell_width
 
     response.content = ''
     wb.save(response)
@@ -194,25 +187,19 @@ def convert_to_excel_openpyxl(response):
 def get_excel_support():
     # Autodetect library to use for xls writing.  Default to xlwt.
     from django.conf import settings
-
     EXCEL_SUPPORT = getattr(settings, "EXCEL_SUPPORT", None)
-
     if EXCEL_SUPPORT:
         return EXCEL_SUPPORT
-
     try:
         import xlwt
-
         return 'xlwt'
     except ImportError:
         try:
             import pyExcelerator
-
             return 'pyexcelerator'
         except ImportError:
             try:
                 import openpyxl
-
                 return 'openpyxl'
             except ImportError:
                 pass
@@ -220,7 +207,6 @@ def get_excel_support():
 
 def convert_to_excel(response):
     EXCEL_SUPPORT = get_excel_support()
-
     if EXCEL_SUPPORT == 'xlwt':
         convert_to_excel_xlwt(response)
     elif EXCEL_SUPPORT == 'pyexcelerator':
