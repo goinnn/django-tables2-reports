@@ -93,6 +93,7 @@ class TestRenderDT2R(TestCase):
         original_middlewares = settings.MIDDLEWARE_CLASSES
         settings.MIDDLEWARE_CLASSES += ('django_tables2_reports.middleware.TableReportMiddleware',)
         self.client.handler.load_middleware()
+        self._test_check_render(url)
         response_with_middleware = self._test_check_report_csv(url, report_format=report_format)
         self.assertEqual(response.content, response_with_middleware.content)
         settings.MIDDLEWARE_CLASSES = original_middlewares
