@@ -173,3 +173,9 @@ a readily setup project that uses django-tables2-reports. You can run it as usua
 ::
 
     python manage.py runserver
+
+
+.. image:: https://d2weczhvl823v0.cloudfront.net/goinnn/django-tables2-reports/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
+
