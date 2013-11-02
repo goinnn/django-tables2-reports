@@ -14,6 +14,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
+import sys
+
+PY3 = sys.version_info[0] == 3
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -49,7 +53,10 @@ class TestRenderDT2R(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         if report_format == 'csv':
-            num_lines = len([line for line in response.content.split('\n') if line])
+            content = response.content
+            if PY3:
+                content = content.decode(settings.DEFAULT_CHARSET)
+            num_lines = len([line for line in content.split('\n') if line])
             self.assertEqual(num_lines - 1, Person.objects.all().count())
         return response
 
