@@ -27,6 +27,7 @@ except ImportError:
 
 import django_tables2 as tables
 
+from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 from django.utils.html import strip_tags
@@ -50,6 +51,7 @@ class UnicodeWriter:
         self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
         self.stream = f
         self.encoder = codecs.getincrementalencoder(encoding)()
+        self.encoding = encoding
 
     def writerow(self, row):
         if PY3:
@@ -57,10 +59,10 @@ class UnicodeWriter:
             # Fetch UTF-8 output from the queue ...
             data = self.queue.getvalue()
         else:
-            self.writer.writerow([s.encode("utf-8") for s in row])
+            self.writer.writerow([s.encode(self.encoding) for s in row])
             # Fetch UTF-8 output from the queue ...
             data = self.queue.getvalue()
-            data = data.decode("utf-8")
+            data = data.decode(self.encoding)
         # ... and reencode it into the target encoding
         data = self.encoder.encode(data)
         # write to the target stream
@@ -94,8 +96,7 @@ class TableReport(tables.Table):
 
     def as_csv(self, request):
         response = HttpResponse()
-        csv_writer = UnicodeWriter(response)
-
+        csv_writer = UnicodeWriter(response, encoding=settings.DEFAULT_CHARSET)
         csv_header = [column.header for column in self.columns]
         csv_writer.writerow(csv_header)
 

@@ -69,7 +69,7 @@ class TestCsvGeneration(TestCase):
         # Expect cells containing commas to be escaped with quotes.
         content = response.content
         if PY3:
-            content = content.decode('utf-8').replace('\x00', '')
+            content = content.decode(settings.DEFAULT_CHARSET).replace('\x00', '')
         self.assertEqual(
             content,
             'Name,Item Num\r\n'
@@ -100,9 +100,9 @@ class TestCsvGeneration(TestCase):
                   'Normal string,1\r\n'
                   'String with ' + unichr(0x16c) + ' char,2\r\n')
         if PY3:
-            content = content.decode('utf-8').replace('\x00', '')
+            content = content.decode(settings.DEFAULT_CHARSET).replace('\x00', '')
         else:
-            result = result.encode('utf-8')
+            result = result.encode(settings.DEFAULT_CHARSET)
         self.assertEqual(content, result)
 
     def test_csv_no_pagination(self):
@@ -128,7 +128,7 @@ class TestCsvGeneration(TestCase):
         # data.
         content = response.content
         if PY3:
-            content = content.decode('utf-8').replace('\x00', '')
+            content = content.decode(settings.DEFAULT_CHARSET).replace('\x00', '')
         self.assertEqual(
             content,
             ('Name,Item Num\r\n'
