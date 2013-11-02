@@ -19,9 +19,25 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 
 
-class TestCsvGeneration(TestCase):
+class TestRenderDT2R(TestCase):
 
-    def test_check_render_and_templatetag(self):
-        url = reverse('index')
+    def _test_check_render(self, url):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        return response
+
+    def test_check_render_class_view(self):
+        url = reverse('index')
+        response = self._test_check_render(url)
+        return response
+
+    def test_check_render_function_view(self):
+        url = reverse('index_function_view')
+        response = self._test_check_render(url)
+        return response
+
+    def test_equal_class_view_and_function_view(self):
+        response_clv = self.test_check_render_class_view()
+        response_fv = self.test_check_render_function_view()
+        self.assertEqual(response_clv.status_code, response_fv.status_code)
+        self.assertEqual(response_clv.content, response_fv.content)

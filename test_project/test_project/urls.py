@@ -1,5 +1,9 @@
 from django.conf import settings
-from django.conf.urls import patterns, include, url
+
+try:
+    from django.conf.urls.defaults import include, patterns, url
+except ImportError:  # Django 1.5
+    from django.conf.urls import include, patterns, url
 
 # Uncomment the next two lines to enable the admin:
 from django.conf.urls.static import static
@@ -11,6 +15,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', TestView.as_view(), name='index'),
+    url(r'^index_function_view/$', 'test_app.views.index_function_view', name='index_function_view'),
     # url(r'^test_project/', include('test_project.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

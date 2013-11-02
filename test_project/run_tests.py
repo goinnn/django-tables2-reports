@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
-import django
 import os
 import sys
 from django.conf import ENVIRONMENT_VARIABLE
@@ -28,7 +27,4 @@ if len(sys.argv) == 1:
 else:
     os.environ[ENVIRONMENT_VARIABLE] = sys.argv[1]
 
-if django.VERSION[0] == 1 and django.VERSION[1] <= 5:
-    management.call_command('test', 'django_tables2_reports')
-else:
-    management.call_command('test', 'testing.django_tables2_reports')
+management.call_command('test', 'django_tables2_reports', 'test_app')
