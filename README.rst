@@ -16,6 +16,10 @@ django-tables2-reports
 .. image:: https://pypip.in/d/django-tables2-reports/badge.png
     :target: https://pypi.python.org/pypi/django-tables2-reports
 
+.. image:: https://d2weczhvl823v0.cloudfront.net/goinnn/django-tables2-reports/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
+
 With django-tables2-reports you can get a report (CSV, XLS) of any `table <http://pypi.python.org/pypi/django-tables2/>`_  with **minimal changes** to your project
 
 Requeriments
@@ -173,9 +177,3 @@ a readily setup project that uses django-tables2-reports. You can run it as usua
 ::
 
     python manage.py runserver
-
-
-.. image:: https://d2weczhvl823v0.cloudfront.net/goinnn/django-tables2-reports/trend.png
-   :alt: Bitdeli badge
-   :target: https://bitdeli.com/free
-
