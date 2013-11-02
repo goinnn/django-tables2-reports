@@ -147,15 +147,9 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse',
-        },
-    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
-            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
@@ -167,3 +161,14 @@ LOGGING = {
         },
     }
 }
+
+import django
+
+if django.VERSION[0] >= 1 and django.VERSION[1] >= 4:
+    TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.tz',)
+    LOGGING['filters'] = {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    }
+    LOGGING['handlers']['mail_admins']['filters'] = ['require_debug_false']
