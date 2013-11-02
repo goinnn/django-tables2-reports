@@ -2,6 +2,7 @@
 source = django_tables2_reports
 omit =
     test_project/*
+    django_tables2_reports/tests.py
 
 [report]
 exclude_lines =
