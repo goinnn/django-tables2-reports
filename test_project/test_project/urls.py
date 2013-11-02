@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', TestView.as_view(), name='index'),
     url(r'^index_function_view/$', 'test_app.views.index_function_view', name='index_function_view'),
+    url(r'^index_function_view_middleware/$', 'test_app.views.index_function_view_middleware', name='index_function_view_middleware'),
     # url(r'^test_project/', include('test_project.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -31,3 +31,12 @@ def index_function_view(request):
     return render_to_response('test_app/person_list.html',
                               {'table': table},
                               context_instance=RequestContext(request))
+
+
+def index_function_view_middleware(request):
+    objs = Person.objects.all()
+    table = TestTable(objs)
+    RequestConfig(request).configure(table)
+    return render_to_response('test_app/person_list.html',
+                              {'table': table},
+                              context_instance=RequestContext(request))
