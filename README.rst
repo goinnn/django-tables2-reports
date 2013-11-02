@@ -1,13 +1,13 @@
 .. contents::
 
 =====================
-django-tables2-report
-=====================
+django-tables2-reports
+======================
 
 .. image:: https://travis-ci.org/goinnn/django-tables2-reports.png?branch=master
     :target: https://travis-ci.org/goinnn/django-tables2-reports
 
-.. image:: https://coveralls.io/repos/goinnn/django-tables2-reports/badge.png
+.. image:: https://coveralls.io/repos/goinnn/django-tables2-reports/badge.png?branch=master
     :target: https://coveralls.io/r/goinnn/django-tables2-reports
 
 .. image:: https://badge.fury.io/py/django-tables2-reports.png
@@ -162,7 +162,7 @@ If you have a lot of tables in your project, you can activate the middleware, an
 Usage
 =====
 
-Under the table appear a CSV icon (and XLS icon if you have xlwt or pyExcelerator in your python path), if you click in this icon, you get a CSV report (or xls report) with every item of the table (without pagination). The ordering works!
+Under the table appear a CSV icon (and XLS icon if you have `xlwt <http://pypi.python.org/pypi/xlwt/>`_, `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ or `openpyxl <http://pythonhosted.org/openpyxl/>`_ in your python path), if you click in this icon, you get a CSV report (or xls report) with every item of the table (without pagination). The ordering works!
 
 Test project
 ============
