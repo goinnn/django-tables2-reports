@@ -14,9 +14,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from django.core.urlresolvers import reverse
+from test_app.models import Person
 
 
 class TestRenderDT2R(TestCase):
@@ -36,8 +37,32 @@ class TestRenderDT2R(TestCase):
         response = self._test_check_render(url)
         return response
 
-    def test_equal_class_view_and_function_view(self):
+    def test_equal_render_class_view_and_function_view(self):
         response_clv = self.test_check_render_class_view()
         response_fv = self.test_check_render_function_view()
+        self.assertEqual(response_clv.status_code, response_fv.status_code)
+        self.assertEqual(response_clv.content, response_fv.content)
+
+    def _test_check_report_csv(self, url):
+        url = url + '?report-testtable=csv'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        num_lines = len([line for line in response.content.split('\n') if line])
+        self.assertEqual(num_lines - 1, Person.objects.all().count())
+        return response
+
+    def test_check_report_csv_class_view(self):
+        url = reverse('index')
+        response = self._test_check_report_csv(url)
+        return response
+
+    def test_check_report_csv_function_view(self):
+        url = reverse('index_function_view')
+        response = self._test_check_report_csv(url)
+        return response
+
+    def test_equal_report_class_view_and_function_view(self):
+        response_clv = self.test_check_report_csv_class_view()
+        response_fv = self.test_check_report_csv_function_view()
         self.assertEqual(response_clv.status_code, response_fv.status_code)
         self.assertEqual(response_clv.content, response_fv.content)
