@@ -21,7 +21,7 @@ class TableReportMiddleware(object):
 
     def process_response(self, request, response):
         table_to_report = getattr(request, REQUEST_VARIABLE, None)
-        current_mymetype = response.get('Content-Type', '')
+        current_mymetype = response.get('Content-Type', None)
         if table_to_report and current_mymetype != REPORT_MYMETYPE:
             return create_report_http_response(table_to_report, request)
         return response
