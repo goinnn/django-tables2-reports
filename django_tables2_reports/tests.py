@@ -138,7 +138,7 @@ class TestCsvGeneration(TestCase):
 
 
 @skipIf(
-    not django_tables2_reports.csv_to_excel.get_excel_support(),
+    not django_tables2_reports.utils.get_excel_support(),
     "No Excel support, please install xlwt, pyExcelerator or openpyxl")
 class TestExcelGeneration(TestCase):
     def setUp(self):
@@ -166,7 +166,7 @@ class TestExcelGeneration(TestCase):
 
     def test_excel_simple_input(self):
         """Test ability to generate excel output with simple input data."""
-        excel_support = getattr(settings, 'EXCEL_SUPPORT', django_tables2_reports.csv_to_excel.get_excel_support())
+        excel_support = getattr(settings, 'EXCEL_SUPPORT', django_tables2_reports.utils.get_excel_support())
         response = self.table.treatement_to_response(
             self.table.as_csv(HttpRequest()),
             format='xls')
