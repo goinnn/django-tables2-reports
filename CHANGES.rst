@@ -1,14 +1,16 @@
 Releases
 ========
 
-0.0.8 (next wednesday)
+0.0.8 (2013-11-??)
 ----------------------
 * Integration with travis and coveralls
 * Fix test with python 3
+* Fix some details
 * Support for `openpyxl <http://pythonhosted.org/openpyxl/>`_
 * Test project (login as test/test)
 * Thanks to:
     * `Michał Pasternak <https://github.com/mpasternak>`_
+    * `Mark Jones <https://github.com/mark0978>`_
 
 0.0.7 (2013-08-29)
 ------------------
