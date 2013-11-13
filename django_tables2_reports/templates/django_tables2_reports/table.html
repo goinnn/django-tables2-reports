@@ -2,7 +2,7 @@
 
 {% load i18n django_tables2 %}
 
-{% block table %}
+{% block pagination %}
     {{ block.super }}
     {% block table.report %}
         {% if table.is_configured %}
