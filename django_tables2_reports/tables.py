@@ -20,6 +20,12 @@ import sys
 
 PY3 = sys.version_info[0] == 3
 
+if PY3:
+    string = str
+    unicode = str
+else:
+    string = basestring
+
 try:
     from cStringIO import StringIO
 except ImportError:
@@ -99,10 +105,15 @@ class TableReport(tables.Table):
         csv_writer = UnicodeWriter(response, encoding=settings.DEFAULT_CHARSET)
         csv_header = [column.header for column in self.columns]
         csv_writer.writerow(csv_header)
-
         for row in self.rows:
-            csv_writer.writerow([strip_tags(cell) for column, cell in row.items()])
-
+            csv_row = []
+            for column, cell in row.items():
+                if isinstance(cell, string):
+                    cell = strip_tags(cell)
+                else:
+                    cell = unicode(cell)
+                csv_row.append(cell)
+            csv_writer.writerow(csv_row)
         return response
 
     def as_xls(self, request):
