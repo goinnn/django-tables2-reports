@@ -107,6 +107,8 @@ class TableReport(tables.Table):
             csv_row = []
             for column, cell in row.items():
                 if isinstance(cell, string):
+                    # if cell is not a string strip_tags(cell) get an
+                    # error in django 1.6
                     cell = strip_tags(cell)
                 else:
                     cell = unicode(cell)
