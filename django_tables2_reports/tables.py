@@ -76,10 +76,6 @@ class UnicodeWriter:
         # empty queue
         self.queue.truncate(0)
 
-    def writerows(self, rows):
-        for row in rows:
-            self.writerow(row)
-
 
 class TableReport(tables.Table):
 
