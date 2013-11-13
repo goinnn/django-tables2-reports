@@ -1,13 +1,15 @@
 Releases
 ========
 
-0.0.8 (2013-11-??)
+0.0.8 (2013-11-13)
 ----------------------
+* `Refactor the csv_to_excel module <https://github.com/goinnn/django-tables2-reports/commit/51c8cee2500f73ba8b823a81fc5ad9b3f2a62d83>`_
+* Support for `openpyxl <http://pythonhosted.org/openpyxl/>`_
 * Integration with travis and coveralls
+* Fix an error if you use the theme paleblue
 * Fix test with python 3
 * Fix some details
-* Support for `openpyxl <http://pythonhosted.org/openpyxl/>`_
-* Test project (login as test/test)
+* Test project
 * Thanks to:
     * `Michał Pasternak <https://github.com/mpasternak>`_
     * `Mark Jones <https://github.com/mark0978>`_

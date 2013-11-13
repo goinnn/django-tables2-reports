@@ -36,7 +36,7 @@ setup(
         'Programming Language :: Python :: 3',
     ],
     license="LGPL 3",
-    keywords="django,tables,django-tables2,reports,CSV, XLS",
+    keywords="django,tables,django-tables2,reports,CSV,XLS",
     url='https://github.com/goinnn/django-tables2-reports',
     packages=find_packages(),
     include_package_data=True,
