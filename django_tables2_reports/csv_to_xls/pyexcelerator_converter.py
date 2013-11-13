@@ -26,35 +26,20 @@ except ImportError:
 
 def convert_to_excel(response, encoding='utf-8', title_sheet='Sheet 1'):
     import pyExcelerator
-    titlePresent = False
     linesPerFile = -1
     workbook = pyExcelerator.Workbook()
     worksheet = workbook.add_sheet(title_sheet)
     fno = 0
     lno = 0
-    titleCols = []
     content = StringIO(response.content)
     reader = csv.reader(content)
     for line in reader:
-        if (lno == 0 and titlePresent):
-            if (len(titleCols) == 0):
-                titleCols = line
-            write_header(worksheet, titleCols)
-        else:
-            write_row(worksheet, lno, line, encoding=encoding)
+        write_row(worksheet, lno, line, encoding=encoding)
         lno = lno + 1
         if (linesPerFile != -1 and lno >= linesPerFile):
             fno = fno + 1
             lno = 0
     response.content = workbook.get_biff_data()
-
-
-def write_header(worksheet, titleCols):
-    """ Write the header line into the worksheet """
-    cno = 0
-    for titleCol in titleCols:
-        worksheet.write(0, cno, titleCol)
-        cno = cno + 1
 
 
 def write_row(worksheet, lno, columns, encoding='utf-8'):
