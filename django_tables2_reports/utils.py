@@ -58,12 +58,8 @@ def get_excel_support():
 
 def generate_prefixto_report(table, prefix_param_report=None):
     param_report = prefix_param_report or DEFAULT_PARAM_PREFIX
-    if isinstance(table, Table):
-        table_class = table.__class__
-        prefix = table.prefix
-    else:
-        table_class = table
-        prefix = None
+    table_class = table.__class__
+    prefix = table.prefix
     param_report = "%s-%s" % (param_report, table_class.__name__.lower())
     if prefix:
         param_report = "%s-%s" % (prefix, param_report)
