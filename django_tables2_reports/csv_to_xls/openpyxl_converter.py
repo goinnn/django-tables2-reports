@@ -18,30 +18,23 @@ import csv
 import collections
 import sys
 
+from openpyxl import Workbook
+from openpyxl.cell import get_column_letter
+
+from .base import get_content
+
 PY3 = sys.version_info[0] == 3
 
-if PY3:
-    from io import StringIO
-else:
-    try:
-        from cStringIO import StringIO
-    except ImportError:
-        from StringIO import StringIO
 
-
-def convert_to_excel(response, encoding='utf-8', title_sheet='Sheet 1'):
-    from openpyxl import Workbook
-    from openpyxl.cell import get_column_letter
+def convert(response, encoding='utf-8', title_sheet='Sheet 1', content_attr='content', csv_kwargs=None):
+    csv_kwargs = csv_kwargs or {}
     wb = Workbook(encoding=encoding)
     ws = wb.get_active_sheet()
     ws.title = title_sheet
     cell_widths = collections.defaultdict(lambda: 0)
+    content = get_content(response, encoding=encoding, content_attr=content_attr)
+    reader = csv.reader(content, **csv_kwargs)
 
-    if PY3:
-        content = StringIO(response.content.decode(encoding).replace('\x00', ''))
-    else:
-        content = StringIO(response.content)
-    reader = csv.reader(content)
     for lno, line in enumerate(reader):
         write_row(ws, lno, line, cell_widths, encoding=encoding)
 
@@ -51,7 +44,7 @@ def convert_to_excel(response, encoding='utf-8', title_sheet='Sheet 1'):
         ws.cell(column=i, row=0).style.font.bold = True
         ws.column_dimensions[get_column_letter(i + 1)].width = cell_width
 
-    response.content = ''
+    setattr(response, content_attr, '')
     wb.save(response)
 
 

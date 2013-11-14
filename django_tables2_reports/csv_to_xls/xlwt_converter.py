@@ -17,23 +17,18 @@
 import csv
 import collections
 import sys
+import xlwt
+
+from .base import get_content
 
 PY3 = sys.version_info[0] == 3
 
-if PY3:
-    from io import StringIO
-else:
-    try:
-        from cStringIO import StringIO
-    except ImportError:
-        from StringIO import StringIO
 
-
-def convert_to_excel(response, encoding='utf-8', title_sheet='Sheet 1'):
+def convert(response, encoding='utf-8', title_sheet='Sheet 1',  content_attr='content', csv_kwargs=None):
     """Replace HttpResponse csv content with excel formatted data using xlwt
     library.
     """
-    import xlwt
+    csv_kwargs = csv_kwargs or {}
     # Styles used in the spreadsheet.  Headings are bold.
     header_font = xlwt.Font()
     header_font.bold = True
@@ -46,11 +41,8 @@ def convert_to_excel(response, encoding='utf-8', title_sheet='Sheet 1'):
 
     # Cell width information kept for every column, indexed by column number.
     cell_widths = collections.defaultdict(lambda: 0)
-    if PY3:
-        content = StringIO(response.content.decode(encoding).replace('\x00', ''))
-    else:
-        content = StringIO(response.content)
-    reader = csv.reader(content)
+    content = get_content(response)
+    reader = csv.reader(content, **csv_kwargs)
     for lno, line in enumerate(reader):
         if lno == 0:
             style = header_style
@@ -60,8 +52,7 @@ def convert_to_excel(response, encoding='utf-8', title_sheet='Sheet 1'):
     # Roughly autosize output column widths based on maximum column size.
     for col, width in cell_widths.items():
         ws.col(col).width = width
-
-    response.content = ''
+    setattr(response, content_attr, '')
     wb.save(response)
 
 

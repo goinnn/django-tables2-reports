@@ -38,7 +38,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 from django.utils.html import strip_tags
 
-from django_tables2_reports.csv_to_xls import convert_to_excel
+from django_tables2_reports import csv_to_xls
 from django_tables2_reports.utils import (DEFAULT_PARAM_PREFIX,
                                           get_excel_support,
                                           generate_prefixto_report)
@@ -121,7 +121,7 @@ class TableReport(tables.Table):
 
     def treatement_to_response(self, response, format='csv'):
         if format == 'xls':
-            convert_to_excel(response, get_excel_support(),
-                             encoding=settings.DEFAULT_CHARSET,
-                             title_sheet=self.param_report)
+            csv_to_xls.convert(response, get_excel_support(),
+                               encoding=settings.DEFAULT_CHARSET,
+                               title_sheet=self.param_report)
         return response

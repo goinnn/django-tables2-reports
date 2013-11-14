@@ -17,24 +17,23 @@
 # This only works with python 2.x
 
 import csv
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+import pyExcelerator
 
 
-def convert_to_excel(response, encoding='utf-8', title_sheet='Sheet 1'):
-    import pyExcelerator
+from .base import get_content
+
+
+def convert(response, encoding='utf-8', title_sheet='Sheet 1', content_attr='content', csv_kwargs=None):
+    csv_kwargs = csv_kwargs or {}
     workbook = pyExcelerator.Workbook()
     worksheet = workbook.add_sheet(title_sheet)
     lno = 0
-    content = StringIO(response.content)
-    reader = csv.reader(content)
+    content = get_content(response)
+    reader = csv.reader(content, **csv_kwargs)
     for line in reader:
         write_row(worksheet, lno, line, encoding=encoding)
         lno = lno + 1
-    response.content = workbook.get_biff_data()
+    setattr(response, 'content_attr', workbook.get_biff_data())
 
 
 def write_row(worksheet, lno, columns, encoding='utf-8'):

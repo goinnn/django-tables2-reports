@@ -15,21 +15,28 @@
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
 
-def convert_to_excel(response, excel_support, encoding='utf-8', title_sheet='Sheet 1'):
+def convert(response, excel_support, encoding='utf-8',
+            title_sheet='Sheet 1', content_attr='content', csv_kwargs=None):
     if excel_support == 'xlwt':
-        from .xlwt_converter import convert_to_excel as convert_to_excel_xlwt
-        convert_to_excel_xlwt(response,
-                              encoding=encoding,
-                              title_sheet=title_sheet)
+        from .xlwt_converter import convert as convert_xlwt
+        convert_xlwt(response,
+                     encoding=encoding,
+                     title_sheet=title_sheet,
+                     content_attr=content_attr,
+                     csv_kwargs=csv_kwargs)
     elif excel_support == 'pyexcelerator':
-        from .pyexcelerator_converter import convert_to_excel as convert_to_excel_pyexcelerator
-        convert_to_excel_pyexcelerator(response,
-                                       encoding=encoding,
-                                       title_sheet=title_sheet)
+        from .pyexcelerator_converter import convert as convert_pyexcelerator
+        convert_pyexcelerator(response,
+                              encoding=encoding,
+                              title_sheet=title_sheet,
+                              content_attr=content_attr,
+                              csv_kwargs=csv_kwargs)
     elif excel_support == 'openpyxl':
-        from .openpyxl_converter import convert_to_excel as convert_to_excel_openpyxl
-        convert_to_excel_openpyxl(response,
-                                  encoding=encoding,
-                                  title_sheet=title_sheet)
+        from .openpyxl_converter import convert as convert_openpyxl
+        convert_openpyxl(response,
+                         encoding=encoding,
+                         title_sheet=title_sheet,
+                         content_attr=content_attr,
+                         csv_kwargs=csv_kwargs)
     else:
         raise RuntimeError("No support for xls generation available")
