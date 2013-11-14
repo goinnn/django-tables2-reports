@@ -46,12 +46,12 @@ def get_excel_support():
         return 'xlwt'
     except ImportError:
         try:
-            import pyExcelerator
-            return 'pyexcelerator'
+            import openpyxl
+            return 'openpyxl'
         except ImportError:
             try:
-                import openpyxl
-                return 'openpyxl'
+                import pyExcelerator
+                return 'pyexcelerator'
             except ImportError:
                 pass
 

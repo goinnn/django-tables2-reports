@@ -27,7 +27,7 @@ Requeriments
 
 * `django <http://pypi.python.org/pypi/django/>`_ (>=1.3)
 * `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=0.11.0, tested with 0.14.0)
-* `xlwt <http://pypi.python.org/pypi/xlwt/>`_ (>=0.7.5), `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4.1) or `openpyxl <http://pythonhosted.org/openpyxl/>`_ (>=1.6.2) (These are optionals, to export to xls. Default to xlwt if available)
+* `xlwt <http://pypi.python.org/pypi/xlwt/>`_ (>=0.7.5), `openpyxl <http://pythonhosted.org/openpyxl/>`_ (>=1.6.2) or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4.1) (These are optionals, to export to xls. Default to xlwt if available)
 
 If you use python3, and you want export to xls use this version of the `xlwt (fork) <https://github.com/goinnn/xlwt-future/>`_ if this `pull request <https://github.com/python-excel/xlwt/pull/32>`_ is not merged still , or use `openpyxl <http://pythonhosted.org/openpyxl/>`_
 
@@ -166,7 +166,7 @@ If you have a lot of tables in your project, you can activate the middleware, an
 Usage
 =====
 
-Under the table appear a CSV icon (and XLS icon if you have `xlwt <http://pypi.python.org/pypi/xlwt/>`_, `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ or `openpyxl <http://pythonhosted.org/openpyxl/>`_ in your python path), if you click in this icon, you get a CSV report (or xls report) with every item of the table (without pagination). The ordering works!
+Under the table appear a CSV icon (and XLS icon if you have `xlwt <http://pypi.python.org/pypi/xlwt/>`_, `openpyxl <http://pythonhosted.org/openpyxl/>`_ or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ in your python path), if you click in this icon, you get a CSV report (or xls report) with every item of the table (without pagination). The ordering works!
 
 Test project
 ============
