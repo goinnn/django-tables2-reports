@@ -48,8 +48,8 @@ class TestRenderDT2R(TestCase):
         self.assertEqual(response_clv.status_code, response_fv.status_code)
         self.assertEqual(response_clv.content, response_fv.content)
 
-    def _test_check_report_csv(self, url, report_format='csv'):
-        url = url + '?report-testtable=%s' % report_format
+    def _test_check_report_csv(self, url, report_format='csv', report_param='report-testtable'):
+        url = url + '?%s=%s' % (report_param, report_format)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         if report_format == 'csv':
@@ -67,7 +67,8 @@ class TestRenderDT2R(TestCase):
 
     def test_check_report_csv_function_view(self, report_format='csv'):
         url = reverse('index_function_view')
-        response = self._test_check_report_csv(url, report_format=report_format)
+        response = self._test_check_report_csv(url,
+                                               report_format=report_format)
         return response
 
     def test_equal_report_class_view_and_function_view(self, report_format='csv'):
@@ -93,7 +94,7 @@ class TestRenderDT2R(TestCase):
         response = self.test_check_report_csv_function_view(report_format=report_format)
         url = reverse('index_function_view_middleware')
         try:
-            self._test_check_report_csv(url, report_format=report_format)
+            self._test_check_report_csv(url, report_format=report_format, report_param='my-prefix-report-testtable')
             raise AssertionError("The call to _test_check_report_csv method should get an AssertionError exception")
         except AssertionError:
             pass
@@ -101,7 +102,7 @@ class TestRenderDT2R(TestCase):
         settings.MIDDLEWARE_CLASSES += ('django_tables2_reports.middleware.TableReportMiddleware',)
         self.client.handler.load_middleware()
         self._test_check_render(url)
-        response_with_middleware = self._test_check_report_csv(url, report_format=report_format)
+        response_with_middleware = self._test_check_report_csv(url, report_format=report_format, report_param='my-prefix-report-testtable')
         self.assertEqual(response.content, response_with_middleware.content)
         settings.MIDDLEWARE_CLASSES = original_middlewares
         self.assertEqual('django_tables2_reports.middleware.TableReportMiddleware' in settings.MIDDLEWARE_CLASSES,
