@@ -26,19 +26,14 @@ except ImportError:
 
 def convert_to_excel(response, encoding='utf-8', title_sheet='Sheet 1'):
     import pyExcelerator
-    linesPerFile = -1
     workbook = pyExcelerator.Workbook()
     worksheet = workbook.add_sheet(title_sheet)
-    fno = 0
     lno = 0
     content = StringIO(response.content)
     reader = csv.reader(content)
     for line in reader:
         write_row(worksheet, lno, line, encoding=encoding)
         lno = lno + 1
-        if (linesPerFile != -1 and lno >= linesPerFile):
-            fno = fno + 1
-            lno = 0
     response.content = workbook.get_biff_data()
 
 
