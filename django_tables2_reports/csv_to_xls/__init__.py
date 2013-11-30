@@ -14,9 +14,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
+#http://stackoverflow.com/questions/3681868/is-there-a-limit-on-an-excel-worksheets-name-length
+MAX_LENGTH_TITLE_SHEET = 31
+
 
 def convert(response, excel_support, encoding='utf-8',
             title_sheet='Sheet 1', content_attr='content', csv_kwargs=None):
+    if len(title_sheet) > MAX_LENGTH_TITLE_SHEET:
+        raise ValueError("The maximum length of a title of a sheet is %s" % MAX_LENGTH_TITLE_SHEET)
     if excel_support == 'xlwt':
         from .xlwt_converter import convert as convert_xlwt
         convert_xlwt(response,

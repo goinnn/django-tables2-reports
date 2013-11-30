@@ -123,5 +123,5 @@ class TableReport(tables.Table):
         if format == 'xls':
             csv_to_xls.convert(response, get_excel_support(),
                                encoding=settings.DEFAULT_CHARSET,
-                               title_sheet=self.param_report)
+                               title_sheet=self.param_report[:csv_to_xls.MAX_LENGTH_TITLE_SHEET])
         return response
