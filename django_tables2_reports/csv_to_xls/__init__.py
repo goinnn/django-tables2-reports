@@ -18,30 +18,41 @@
 MAX_LENGTH_TITLE_SHEET = 31
 
 
-def convert(response, excel_support, encoding='utf-8',
+def convert(response, excel_support=None, encoding='utf-8',
             title_sheet='Sheet 1', content_attr='content', csv_kwargs=None):
     if len(title_sheet) > MAX_LENGTH_TITLE_SHEET:
         raise ValueError("The maximum length of a title of a sheet is %s" % MAX_LENGTH_TITLE_SHEET)
+    excel_support = excel_support or get_xls_support()
     if excel_support == 'xlwt':
-        from .xlwt_converter import convert as convert_xlwt
-        convert_xlwt(response,
-                     encoding=encoding,
-                     title_sheet=title_sheet,
-                     content_attr=content_attr,
-                     csv_kwargs=csv_kwargs)
-    elif excel_support == 'pyexcelerator':
-        from .pyexcelerator_converter import convert as convert_pyexcelerator
-        convert_pyexcelerator(response,
-                              encoding=encoding,
-                              title_sheet=title_sheet,
-                              content_attr=content_attr,
-                              csv_kwargs=csv_kwargs)
+        from .xlwt_converter import convert
     elif excel_support == 'openpyxl':
-        from .openpyxl_converter import convert as convert_openpyxl
-        convert_openpyxl(response,
-                         encoding=encoding,
-                         title_sheet=title_sheet,
-                         content_attr=content_attr,
-                         csv_kwargs=csv_kwargs)
+        from .openpyxl_converter import convert
+    elif excel_support == 'pyexcelerator':
+        from .pyexcelerator_converter import convert
     else:
         raise RuntimeError("No support for xls generation available")
+
+    convert(response,
+            encoding=encoding,
+            title_sheet=title_sheet,
+            content_attr=content_attr,
+            csv_kwargs=csv_kwargs)
+
+
+def get_xls_support():
+    try:
+        import xlwt
+        return 'xlwt'
+    except ImportError:
+        pass
+    try:
+        import openpyxl
+        return 'openpyxl'
+    except ImportError:
+        pass
+    try:
+        import pyExcelerator
+        return 'pyexcelerator'
+    except ImportError:
+        pass
+    return None

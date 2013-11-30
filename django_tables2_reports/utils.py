@@ -15,7 +15,7 @@
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.http import HttpResponse
-from django_tables2.tables import Table
+from django_tables2_reports import csv_to_xls
 
 DEFAULT_PARAM_PREFIX = 'report'
 REQUEST_VARIABLE = 'table_to_report'
@@ -36,24 +36,9 @@ def create_report_http_response(table, request):
 
 
 def get_excel_support():
-    # Autodetect library to use for xls writing.  Default to xlwt.
+    # If you don't specify a xls library, this function will autodetect the library to use for xls writing. Default to xlwt.
     from django.conf import settings
-    excel_support = getattr(settings, "EXCEL_SUPPORT", None)
-    if excel_support:
-        return excel_support
-    try:
-        import xlwt
-        return 'xlwt'
-    except ImportError:
-        try:
-            import openpyxl
-            return 'openpyxl'
-        except ImportError:
-            try:
-                import pyExcelerator
-                return 'pyexcelerator'
-            except ImportError:
-                pass
+    return getattr(settings, "EXCEL_SUPPORT", None) or csv_to_xls.get_xls_support()
 
 
 def generate_prefixto_report(table, prefix_param_report=None):
