@@ -5,6 +5,7 @@ Releases
 ------------------
 * Compatible with the future version  of Django (>=1.7)
 * Update the tests
+* Refactor the code
 * Fix a bug when the title of the sheet is longer than 31
 * Thanks to:
     * `Pavel Zaytsev <https://github.com/stelzzz>`_

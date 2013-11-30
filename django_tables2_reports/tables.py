@@ -91,12 +91,12 @@ class TableReport(tables.Table):
         if get_excel_support():
             self.formats.append((_('XLS Report'), 'xls'))
 
-    def as_report(self, request, format='csv'):
-        if format == 'csv':
+    def as_report(self, request, report_format='csv'):
+        if report_format == 'csv':
             return self.as_csv(request)
-        elif format == 'xls':
+        elif report_format == 'xls':
             return self.as_xls(request)
-        raise ValueError("This format %s is not accepted" % format)
+        raise ValueError("This format %s is not accepted" % report_format)
 
     def as_csv(self, request):
         response = HttpResponse()
@@ -119,8 +119,8 @@ class TableReport(tables.Table):
     def as_xls(self, request):
         return self.as_csv(request)
 
-    def treatement_to_response(self, response, format='csv'):
-        if format == 'xls':
+    def treatement_to_response(self, response, report_format='csv'):
+        if report_format == 'xls':
             csv_to_xls.convert(response, get_excel_support(),
                                encoding=settings.DEFAULT_CHARSET,
                                title_sheet=self.param_report[:csv_to_xls.MAX_LENGTH_TITLE_SHEET])

@@ -169,7 +169,7 @@ class TestExcelGeneration(TestCase):
         excel_support = getattr(settings, 'EXCEL_SUPPORT', django_tables2_reports.utils.get_excel_support())
         response = self.table.treatement_to_response(
             self.table.as_csv(HttpRequest()),
-            format='xls')
+            report_format='xls')
         self.assertEqual(response.status_code, 200)
         open('test-file-%s.%s' % (excel_support, extension),
              'wb').write(response.content)

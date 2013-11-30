@@ -24,15 +24,13 @@ REPORT_MYMETYPE = REPORT_CONTENT_TYPE  # backwards compatible
 
 
 def create_report_http_response(table, request):
-    format = request.GET.get(table.param_report)
-    report = table.as_report(request, format=format)
-    extension = format
-    if format == 'xls' and get_excel_support() == "openpyxl":
-        extension = 'xlsx'
+    report_format = request.GET.get(table.param_report)
+    report = table.as_report(request, report_format=report_format)
+    extension = get_extension_report(report_format)
     filename = '%s.%s' % (table.param_report, extension)
     response = HttpResponse(report, content_type=REPORT_CONTENT_TYPE)
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
-    response = table.treatement_to_response(response, format=format)
+    response = table.treatement_to_response(response, report_format=report_format)
     return response
 
 
@@ -40,6 +38,12 @@ def get_excel_support():
     # If you don't specify a xls library, this function will autodetect the library to use for xls writing. Default to xlwt.
     from django.conf import settings
     return getattr(settings, "EXCEL_SUPPORT", None) or csv_to_xls.get_xls_support()
+
+
+def get_extension_report(report_format):
+    if report_format == 'xls' and get_excel_support() == "openpyxl":
+        return 'xlsx'
+    return report_format
 
 
 def generate_prefixto_report(table, prefix_param_report=None):
