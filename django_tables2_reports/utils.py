@@ -19,7 +19,8 @@ from django_tables2_reports import csv_to_xls
 
 DEFAULT_PARAM_PREFIX = 'report'
 REQUEST_VARIABLE = 'table_to_report'
-REPORT_MYMETYPE = 'application/vnd.ms-excel'
+REPORT_CONTENT_TYPE = 'application/vnd.ms-excel'
+REPORT_MYMETYPE = REPORT_CONTENT_TYPE  # backwards compatible
 
 
 def create_report_http_response(table, request):
@@ -29,7 +30,7 @@ def create_report_http_response(table, request):
     if format == 'xls' and get_excel_support() == "openpyxl":
         extension = 'xlsx'
     filename = '%s.%s' % (table.param_report, extension)
-    response = HttpResponse(report, mimetype=REPORT_MYMETYPE)
+    response = HttpResponse(report, content_type=REPORT_CONTENT_TYPE)
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     response = table.treatement_to_response(response, format=format)
     return response
