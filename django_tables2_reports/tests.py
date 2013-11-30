@@ -164,14 +164,14 @@ class TestExcelGeneration(TestCase):
         ]
         self.table = TableReportForTesting(self.data)
 
-    def test_excel_simple_input(self):
+    def test_excel_simple_input(self, extension='xls'):
         """Test ability to generate excel output with simple input data."""
         excel_support = getattr(settings, 'EXCEL_SUPPORT', django_tables2_reports.utils.get_excel_support())
         response = self.table.treatement_to_response(
             self.table.as_csv(HttpRequest()),
             format='xls')
         self.assertEqual(response.status_code, 200)
-        open('test-file-%s.xlsx' % excel_support,
+        open('test-file-%s.%s' % (excel_support, extension),
              'wb').write(response.content)
 
     def test_pyexcelerator(self):
@@ -186,4 +186,4 @@ class TestExcelGeneration(TestCase):
 
     def test_openpyxls(self):
         settings.EXCEL_SUPPORT = "openpyxl"
-        self.test_excel_simple_input()
+        self.test_excel_simple_input(extension='xlsx')
