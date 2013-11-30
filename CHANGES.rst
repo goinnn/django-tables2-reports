@@ -1,8 +1,17 @@
 Releases
 ========
 
+0.0.9 (2013-11-30)
+------------------
+* Compatible with the future version  of Django (>=1.7)
+* Update the tests
+* Fix a bug when the title of the sheet is longer than 31
+* Thanks to:
+    * `Pavel Zaytsev <https://github.com/stelzzz>`_
+
+
 0.0.8 (2013-11-14)
-----------------------
+------------------
 * `Refactor the csv_to_excel module <https://github.com/goinnn/django-tables2-reports/commit/51c8cee2500f73ba8b823a81fc5ad9b3f2a62d83>`_. In the next release this package will be a pypi egg.
 * Support for `openpyxl <http://pythonhosted.org/openpyxl/>`_
 * Integration with travis and coveralls
