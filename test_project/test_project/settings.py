@@ -137,7 +137,7 @@ INSTALLED_APPS = (
     'test_app'
 )
 
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+#EXCEL_SUPPORT = 'openpyxl'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
