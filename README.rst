@@ -176,4 +176,5 @@ a readily setup project that uses django-tables2-reports. You can run it as usua
 
 ::
 
+    python manage.py syncdb --noinput
     python manage.py runserver
