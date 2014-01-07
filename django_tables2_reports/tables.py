@@ -35,7 +35,7 @@ import django_tables2 as tables
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.utils.html import strip_tags
 
 from django_tables2_reports import csv_to_xls
@@ -96,7 +96,8 @@ class TableReport(tables.Table):
             return self.as_csv(request)
         elif report_format == 'xls':
             return self.as_xls(request)
-        raise ValueError("This format %s is not accepted" % report_format)
+        else:
+            raise Http404("This format %s is not accepted" % report_format)
 
     def as_csv(self, request):
         response = HttpResponse()
