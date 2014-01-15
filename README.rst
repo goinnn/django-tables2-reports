@@ -59,7 +59,7 @@ Installation
 Changes in your project
 =======================
 
-1. Now your table should extend of 'TableReport'
+1.a Now your table should extend of 'TableReport'
 
 ::
 
@@ -81,6 +81,14 @@ Changes in your project
 
         ...
 
+1.b If you want to exclude some columns from report (e.g. if it is a column of buttons), you should set 'exclude_from_report' - the names of columns (as well as property 'exclude' in `table <http://pypi.python.org/pypi/django-tables2/>`_)
+
+::
+    class MyTable(TableReport):
+	
+	exclude_from_report = ('column_name_1', ...)
+	
+	...
 
 2.a. If you use a traditional views, now you should use other RequestConfig and change a little your view:
 
