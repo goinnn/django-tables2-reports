@@ -1,6 +1,14 @@
 Releases
 ========
 
+0.0.10 (2014-01-19)
+-------------------
+* Fixes for xlsx Content-Type:
+    * django-tables2-reports throws 500 Sever Error when report format is not recognized. 404 is more appropriate in this case.
+    * django-tables2-reports sets Content-Type to application/vnd.ms-excel for xlsx files which causes warnings in Firefox. application/vnd.openxmlformats-officedocument.spreadsheetml.sheet is the correct Content-Type for xlsx
+* Thanks to:
+    * `Ramana Varanasi <https://github.com/sramana>`_
+
 0.0.9 (2013-11-30)
 ------------------
 * Compatible with the future version  of Django (>=1.7)
