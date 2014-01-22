@@ -87,8 +87,8 @@ Changes in your project
 
     class MyTable(TableReport):
 
-        exclude_from_report = ('column1', ...)
-
+        class Meta:
+            exclude_from_report = ('column1', ...)
         ...
 
 2.a. If you use a traditional views, now you should use other RequestConfig and change a little your view:

@@ -138,7 +138,6 @@ class TestCsvGeneration(TestCase):
 
     def test_exclude_from_report(self):
         """Ensure that exclude-some-columns-from-report works."""
-
         data = [
             {
                 'name': 'page 1',
@@ -150,9 +149,13 @@ class TestCsvGeneration(TestCase):
             },
         ]
 
-        table = TableReportForTesting(data)
+        class TableWithExclude(TableReportForTesting):
+            class Meta:
+                exclude_from_report = ('item_num',)
+
+        table = TableWithExclude(data)
         table.exclude = ('name', )
-        table.exclude_from_report = ('item_num',)
+        self.assertEqual(table.exclude_from_report, ('item_num',))
 
         response = table.as_csv(HttpRequest())
         self.assertEqual(response.status_code, 200)
@@ -160,7 +163,7 @@ class TestCsvGeneration(TestCase):
         if PY3:
             content = content.decode(settings.DEFAULT_CHARSET).replace('\x00', '')
 
-        self.assertEqual(table.exclude, ('name',), "Attribute 'exclude_from_report' shouldn't overwrite 'exclude'")
+        self.assertEqual(table.exclude, ('name',))  # Attribute 'exclude_from_report' shouldn't overwrite 'exclude'
         self.assertEqual(
             content,
             ('Name\r\n'

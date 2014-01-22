@@ -93,6 +93,8 @@ class TableReport(tables.Table):
         self.formats = [(_('CSV Report'), 'csv')]
         if get_excel_support():
             self.formats.append((_('XLS Report'), 'xls'))
+        if hasattr(self, 'Meta'):
+            self.exclude_from_report = getattr(self.Meta, 'exclude_from_report', ())
 
     def _with_exclude_from_report(method):
         """ Put to 'exclude' columns from 'exclude_from_report', and revert this after method's call """
