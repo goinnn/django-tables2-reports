@@ -23,14 +23,14 @@ from django_tables2_reports.utils import create_report_http_response
 
 class ReportTableView(SingleTableView):
 
-    def get_table(self):
+    def get_table(self, **kwargs):
         """
         Return a table object to use. The table has automatic support for
         sorting and pagination.
         """
         options = {}
         table_class = self.get_table_class()
-        table = table_class(self.get_table_data())
+        table = table_class(self.get_table_data(), **kwargs)
         paginate = self.get_table_pagination()
         if paginate is not None:
             options['paginate'] = paginate
