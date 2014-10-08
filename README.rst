@@ -22,7 +22,7 @@ django-tables2-reports
 
 With django-tables2-reports you can get a report (CSV, XLS) of any `table <http://pypi.python.org/pypi/django-tables2/>`_  with **minimal changes** to your project
 
-Requeriments
+Requirements
 ============
 
 * `django <http://pypi.python.org/pypi/django/>`_ (>=1.3)
