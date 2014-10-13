@@ -17,6 +17,7 @@
 import csv
 import codecs
 import sys
+from functools import wraps
 
 PY3 = sys.version_info[0] == 3
 
@@ -81,6 +82,8 @@ class UnicodeWriter:
 
 class TableReport(tables.Table):
 
+    exclude_from_report = ()  # the names of columns that should be excluded from report
+
     def __init__(self, *args, **kwargs):
         if not 'template' in kwargs:
             kwargs['template'] = 'django_tables2_reports/table.html'
@@ -90,6 +93,20 @@ class TableReport(tables.Table):
         self.formats = [(_('CSV Report'), 'csv')]
         if get_excel_support():
             self.formats.append((_('XLS Report'), 'xls'))
+        if hasattr(self, 'Meta'):
+            self.exclude_from_report = getattr(self.Meta, 'exclude_from_report', ())
+
+    def _with_exclude_from_report(method):
+        """ Put to 'exclude' columns from 'exclude_from_report', and revert this after method's call """
+        @wraps(method)
+        def with_exclude(self, *args, **kwargs):
+            origin_exclude = self.exclude
+            self.exclude = self.exclude_from_report
+            try:
+                return method(self, *args, **kwargs)
+            finally:
+                self.exclude = origin_exclude
+        return with_exclude
 
     def as_report(self, request, report_format='csv'):
         if report_format == 'csv':
@@ -99,6 +116,7 @@ class TableReport(tables.Table):
         else:
             raise Http404("This format %s is not accepted" % report_format)
 
+    @_with_exclude_from_report
     def as_csv(self, request):
         response = HttpResponse()
         csv_writer = UnicodeWriter(response, encoding=settings.DEFAULT_CHARSET)
@@ -117,6 +135,7 @@ class TableReport(tables.Table):
             csv_writer.writerow(csv_row)
         return response
 
+    @_with_exclude_from_report
     def as_xls(self, request):
         return self.as_csv(request)
 
