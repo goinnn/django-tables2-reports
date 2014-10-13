@@ -177,6 +177,16 @@ Usage
 
 Under the table appear a CSV icon (and XLS icon if you have `xlwt <http://pypi.python.org/pypi/xlwt/>`_, `openpyxl <http://pythonhosted.org/openpyxl/>`_ or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ in your python path), if you click in this icon, you get a CSV report (or xls report) with every item of the table (without pagination). The ordering works!
 
+
+Development
+===========
+
+You can get the last bleeding edge version of django-tables2-reports by doing a clone
+of its git repository::
+
+  git clone https://github.com/goinnn/django-tables2-reports
+
+
 Test project
 ============
 
