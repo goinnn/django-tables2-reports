@@ -11,7 +11,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'db.sqlite',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
@@ -79,7 +79,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -89,7 +89,7 @@ SECRET_KEY = 'lwfo1o9r^+x8xwec=6$a&m(dmg$1t%8)g6hr%&b4%)%_ualb8s'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -137,7 +137,7 @@ INSTALLED_APPS = (
     'test_app'
 )
 
-#EXCEL_SUPPORT = 'openpyxl'
+# EXCEL_SUPPORT = 'openpyxl'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -164,7 +164,7 @@ LOGGING = {
 
 import django
 
-if django.VERSION[0] >= 1 and django.VERSION[1] >= 4:
+if django.VERSION[0] == 1 and django.VERSION[1] >= 4:
     TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.tz',)
     LOGGING['filters'] = {
         'require_debug_false': {
