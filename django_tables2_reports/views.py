@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
+import django
 
 from django_tables2.views import SingleTableView
 
@@ -31,7 +32,10 @@ class ReportTableView(SingleTableView):
         options = {}
         table_class = self.get_table_class()
         table = table_class(self.get_table_data(), **kwargs)
-        paginate = self.get_table_pagination()
+        args = ()
+        if django.VERSION >= (1,8,0):
+            args = (table, )
+        paginate = self.get_table_pagination(*args)
         if paginate is not None:
             options['paginate'] = paginate
         self.table_to_report = RequestConfigReport(self.request, **options).configure(table)
