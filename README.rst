@@ -18,7 +18,7 @@ With django-tables2-reports you can get a report (CSV, XLS) of any `table <http:
 Requirements
 ============
 
-* `Python <http://python.org>`_ 2.7, 3.3, 3.4, 3.5, 3.6
+* `Python <http://python.org>`_ (supports 2.7, 3.3, 3.4, 3.5, 3.6)
 * `Django <http://pypi.python.org/pypi/django/>`_ (supports 1.3, 1.4, 1.5, 1.6, 1.7, 1.8. 1.9, 1.10, 1.11)
 * `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ 
 * `xlwt <http://pypi.python.org/pypi/xlwt/>`_, `openpyxl <http://pythonhosted.org/openpyxl/>`_ or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_  (these are optionals, to export to xls; defaults to xlwt if available)
