@@ -23,7 +23,7 @@ def read(*rnames):
 
 setup(
     name="django-tables2-reports",
-    version="version='0.1.0'",
+    version='0.1.0',
     author="Pablo Martin",
     author_email="goinnn@gmail.com",
     description="With django-tables2-reports you can get a report (CSV, XLS) of any django-tables2 with minimal changes to your project",
@@ -39,6 +39,7 @@ setup(
     keywords="django,tables,django-tables2,reports,CSV,XLS",
     url='https://github.com/goinnn/django-tables2-reports',
     packages=find_packages(),
+    install_requires=[x.strip() for x in open("requirements.txt").readlines()],
     include_package_data=True,
     zip_safe=False,
 )
