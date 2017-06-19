@@ -9,3 +9,4 @@ dist
 *.egg-info
 .tox
 .coverage.*
+test-file*xls*
