@@ -19,7 +19,7 @@ env:
   - DJANGO=1.11
 
 install:
-  - pip install -q --use-mirrors tox coverage
+  - pip install -q tox coverage
   - coverage erase
 
 script:
