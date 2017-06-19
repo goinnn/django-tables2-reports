@@ -7,9 +7,6 @@ django-tables2-reports
 .. image:: https://travis-ci.org/goinnn/django-tables2-reports.svg?branch=master
     :target: https://travis-ci.org/goinnn/django-tables2-reports
 
-.. image:: https://coveralls.io/repos/goinnn/django-tables2-reports/badge.png?branch=master
-    :target: https://coveralls.io/r/goinnn/django-tables2-reports
-
 .. image:: https://badge.fury.io/py/django-tables2-reports.svg
     :target: https://pypi.python.org/pypi/django-tables2-reports
 
