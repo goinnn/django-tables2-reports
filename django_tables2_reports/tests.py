@@ -19,8 +19,10 @@ import sys
 from django.conf import settings
 from django.http import HttpRequest
 from django.test import TestCase
-from django.utils.unittest import skipIf
-
+try:
+    from django.utils.unittest import skipIf
+except ImportError:
+    from django.test.utils import skipIf
 import django_tables2
 import django_tables2_reports.tables
 import django_tables2_reports.views
