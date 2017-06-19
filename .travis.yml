@@ -25,7 +25,7 @@ install:
   - coverage erase
 
 script:
-  - tox -e py{$TRAVIS_PYTHON_VERSION//./}-django{$DJANGO//./}
+  - tox -e py${TRAVIS_PYTHON_VERSION//./}-django${DJANGO//./}
 
 after_success:
   - coverage combine
