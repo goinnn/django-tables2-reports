@@ -1,6 +1,14 @@
 Releases
 ========
 
+0.1.0 (2017-06-19)
+------------------
+* maintenance release, 
+* Django 1.8, 1.9, 1.10, 1.11 support,
+* openpyxl > 2.0.0 support,
+* recent django-tables2 support,
+* new maintainer `Michał Pasternak <https://github.com/mpasternak>`_
+
 0.0.10 (2014-10-13)
 -------------------
 * Fixes for xlsx Content-Type:
