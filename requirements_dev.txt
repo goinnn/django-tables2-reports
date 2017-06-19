@@ -1,0 +1,6 @@
+bumpversion
+Pillow
+pyExcelerator
+xlwt
+openpyxl
+coveralls
