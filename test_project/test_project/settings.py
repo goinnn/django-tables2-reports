@@ -164,7 +164,7 @@ LOGGING = {
 
 import django
 
-if django.VERSION[0] == 1 and django.VERSION[1] >= 4:
+if django.VERSION >= (1,4,0):
     TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.tz',)
     LOGGING['filters'] = {
         'require_debug_false': {
@@ -172,3 +172,20 @@ if django.VERSION[0] == 1 and django.VERSION[1] >= 4:
         },
     }
     LOGGING['handlers']['mail_admins']['filters'] = ['require_debug_false']
+
+if django.VERSION >= (1,10,0):
+    TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'DIRS': [],
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                'django.template.context_processors.debug',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                ],
+            },
+        },
+    ]
