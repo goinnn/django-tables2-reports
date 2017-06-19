@@ -10,15 +10,8 @@ django-tables2-reports
 .. image:: https://coveralls.io/repos/goinnn/django-tables2-reports/badge.png?branch=master
     :target: https://coveralls.io/r/goinnn/django-tables2-reports
 
-.. image:: https://badge.fury.io/py/django-tables2-reports.png
-    :target: https://badge.fury.io/py/django-tables2-reports
-
-.. image:: https://pypip.in/d/django-tables2-reports/badge.png
+.. image:: https://badge.fury.io/py/django-tables2-reports.svg
     :target: https://pypi.python.org/pypi/django-tables2-reports
-
-.. image:: https://d2weczhvl823v0.cloudfront.net/goinnn/django-tables2-reports/trend.png
-   :alt: Bitdeli badge
-   :target: https://bitdeli.com/free
 
 With django-tables2-reports you can get a report (CSV, XLS) of any `table <http://pypi.python.org/pypi/django-tables2/>`_  with **minimal changes** to your project
 
