@@ -1,5 +1,15 @@
 .. contents::
 
+=============================
+This project has been retired
+=============================
+
+This project has been retired and we leave it here, as-is, for anybody still using it.
+
+The proper way to export data to various formats now is `django-tables2` package itself. See for yourself: http://django-tables2.readthedocs.io/en/latest/pages/export.html
+
+Please do not use django-tables2-reports for new projects. 
+
 ======================
 django-tables2-reports
 ======================
